@@ -1,7 +1,6 @@
 'use strict';
 
 // Imports dependencies and set up http server
-require('dotenv').config();
 console.log(process.env);
 const
   express = require('express'),
