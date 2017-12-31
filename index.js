@@ -1,16 +1,12 @@
 'use strict';
 
 // Imports dependencies and set up http server
-console.log(process.env);
 const
   express = require('express'),
   bodyParser = require('body-parser'),
   request = require('request'),
   app = express().use(bodyParser.json()); // creates express http server
 let goingOutTn = 'No!';
-
-}
-console.log(goingOutTn);
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening on port 1337'));
 // Creates the endpoint for our webhook
