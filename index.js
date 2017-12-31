@@ -9,6 +9,7 @@ const
   app = express().use(bodyParser.json()); // creates express http server
 let goingOutTn = 'No!';
 let randomNum = Math.floor(Math.random() * 10);
+console.log(randomNum);
 if (randomNum <= 6) {
   goingOutTn = 'Yes!';
 }
