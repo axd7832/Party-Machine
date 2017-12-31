@@ -136,7 +136,7 @@ function handlePostback(sender_psid, received_postback) {
             "buttons": [
               {
                 "type": "postback",
-                "title": "Go",
+                "title": "Should I?",
                 "payload": "Should I?",
               }
             ],
