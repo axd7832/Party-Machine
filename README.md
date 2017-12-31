@@ -1,6 +1,7 @@
 # Party Machine
 
 An end to the question : "Should I Go Out Tonight?"
+![Alt text](media/screenshot.png?raw=true "Screenshot")
 
 ## Getting Started
 
@@ -31,7 +32,7 @@ heroku create {name}
 heroku config:set VERIFY_TOKEN=<YOUR_VERIFY_TOKEN_HERE>
 heroku config:set PAGE_ACCESS_TOKEN=<YOUR_PAGE_ACCESS_TOKEN_HERE>
 ```
-* Create Heroku Procile with contents:
+* Create Heroku Procfile with contents:
 ```
 web: node index.js
 ```
