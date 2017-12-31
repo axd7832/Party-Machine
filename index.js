@@ -147,7 +147,7 @@ function handlePostback(sender_psid, received_postback) {
     break;
     case "Go":
       response:{
-        text: goingOutTn
+        "text": goingOutTn
       }
     break;
 
