@@ -1,7 +1,7 @@
 # Party Machine
 
 An end to the question : "Should I Go Out Tonight?"
-![Alt text](media/screenshot.png?raw=true "Screenshot")
+
 
 ## Getting Started
 
