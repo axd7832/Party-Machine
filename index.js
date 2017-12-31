@@ -9,9 +9,9 @@ const
   app = express().use(bodyParser.json()); // creates express http server
 let goingOutTn = 'No!';
 let randomNum = Math.floor(Math.random() * 10);
-console.log(randomNum);
 if (randomNum <= 6) {
   goingOutTn = 'Yes!';
+  console.log("yes");
 }
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening on port 1337'));
@@ -25,7 +25,6 @@ app.post('/webhook', (req, res) => {
       // Gets the message. entry.messaging is an array, but
       // will only ever contain one message, so we get index 0
       let webhookEvent = entry.messaging[0];
-      console.log(webhookEvent);
       let psid = webhookEvent.sender.id;
       console.log("Sender PSID : " + psid);
       // Check if the event is a message or postback and
@@ -73,7 +72,7 @@ function handleMessage(sender_psid, received_message) {
   if (received_message.text) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
-
+    console.log(goingOutTn);
     response = {
       "text": goingOutTn
     }
