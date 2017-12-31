@@ -121,13 +121,57 @@ function handlePostback(sender_psid, received_postback) {
 
   // Get the payload for the postback
   let payload = received_postback.payload;
-
-  // Set the response based on the postback payload
-  if (payload === 'Should I Go Out Tonight?') {
-    response = {
-      "text": goingOutTn
+  switch(payload){
+    case "Get Started":
+      response = {
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "generic",
+          "elements": [{
+            "title": "Should You Go Out Tonight?",
+            "subtitle": "Click to begin.",
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "Go",
+                "payload": "Go",
+              }
+            ],
+          }]
+        }
+      }
     }
+      break;
+    case "Go":
+      response:{
+        text: goingOutTn
+      }
+      break;
+
   }
+  // Set the response based on the postback payload
+  // if (payload === 'Get Started') {
+  //   response = {
+  //     "attachment": {
+  //       "type": "template",
+  //       "payload": {
+  //         "template_type": "generic",
+  //         "elements": [{
+  //           "title": "Should You Go Out Tonight?",
+  //           "subtitle": "Click to begin.",
+  //           "buttons": [
+  //             {
+  //               "type": "postback",
+  //               "title": "Go",
+  //               "payload": "Go",
+  //             }
+  //           ],
+  //         }]
+  //       }
+  //     }
+  //   }
+  // }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
 }
