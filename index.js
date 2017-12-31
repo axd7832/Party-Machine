@@ -1,18 +1,13 @@
 'use strict';
 
 // Imports dependencies and set up http server
-console.log(process.env);
-const
+ const
   express = require('express'),
   bodyParser = require('body-parser'),
   request = require('request'),
   app = express().use(bodyParser.json()); // creates express http server
 let goingOutTn = 'No!';
-let randomNum = Math.floor(Math.random() * 10);
-if (randomNum <= 6) {
-  goingOutTn = 'Yes!';
-  console.log("yes");
-}
+
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening on port 1337'));
 // Creates the endpoint for our webhook
@@ -26,7 +21,6 @@ app.post('/webhook', (req, res) => {
       // will only ever contain one message, so we get index 0
       let webhookEvent = entry.messaging[0];
       let psid = webhookEvent.sender.id;
-      console.log("Sender PSID : " + psid);
       // Check if the event is a message or postback and
       // pass the event to the appropriate handler function
       if (webhookEvent.message) {
@@ -55,7 +49,6 @@ app.get('/webhook', (req, res) => {
     // Checks the mode and token sent is correct
     if (mode === 'subscribe' && token === VERIFY_TOKEN) {
       // Responds with the challenge token from the request
-      console.log('WEBHOOK_VERIFIED');
       res.status(200).send(challenge);
     } else {
       // Responds with '403 Forbidden' if verify tokens do not match
@@ -74,7 +67,7 @@ function handleMessage(sender_psid, received_message) {
     // will be added to the body of our request to the Send API
     console.log(goingOutTn);
     response = {
-      "text": goingOutTn
+      "text": goOut()
     }
   }
   // else if (received_message.attachments) {
@@ -114,11 +107,8 @@ function handleMessage(sender_psid, received_message) {
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
   let response;
-
   // Get the payload for the postback
   let payload = received_postback.payload;
-  console.log(payload);
-
   switch(payload){
     case "Get Started":
       response = {
@@ -143,7 +133,7 @@ function handlePostback(sender_psid, received_postback) {
     break;
     case "Should I?":
       response={
-        "text": goingOutTn
+        "text": goOut()
       }
     break;
 
@@ -183,7 +173,6 @@ function callSendAPI(sender_psid, response) {
     },
     "message": response
   }
-  console.log(process.env.PAGE_ACCESS_TOKEN);
   // Send the HTTP request to the Messenger Platform
   request({
     "uri": "https://graph.facebook.com/v2.6/me/messages",
@@ -195,9 +184,14 @@ function callSendAPI(sender_psid, response) {
   }, (err, res, body) => {
     if (!err) {
       console.log('message sent!')
-      console.log();
     } else {
       console.error("Unable to send message:" + err);
     }
   });
+}
+function goOut() {
+  let randomNum = Math.floor(Math.random() * 10);
+  if (randomNum <= 6) {
+    return goingOutTn = 'Yes!';
+  }
 }
