@@ -8,18 +8,14 @@ const
   request = require('request'),
   app = express().use(bodyParser.json()); // creates express http server
 let goingOutTn = 'No!';
+let randomNum = Math.floor(Math.random() * 10);
+if (randomNum <= 6) {
+  goingOutTn = 'Yes!';
+}
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening on port 1337'));
 // Creates the endpoint for our webhook
 app.post('/webhook', (req, res) => {
-  let randomNum = Math.floor(Math.random() * 10);
-  if (randomNum <= 6) {
-    goingOutTn = 'Yes!';
-  }
-
-
-
-
   let body = req.body;
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
