@@ -1,13 +1,16 @@
 'use strict';
 
 // Imports dependencies and set up http server
- const
+console.log(process.env);
+const
   express = require('express'),
   bodyParser = require('body-parser'),
   request = require('request'),
   app = express().use(bodyParser.json()); // creates express http server
 let goingOutTn = 'No!';
 
+}
+console.log(goingOutTn);
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening on port 1337'));
 // Creates the endpoint for our webhook
@@ -49,6 +52,7 @@ app.get('/webhook', (req, res) => {
     // Checks the mode and token sent is correct
     if (mode === 'subscribe' && token === VERIFY_TOKEN) {
       // Responds with the challenge token from the request
+      console.log('WEBHOOK_VERIFIED');
       res.status(200).send(challenge);
     } else {
       // Responds with '403 Forbidden' if verify tokens do not match
@@ -60,14 +64,14 @@ app.get('/webhook', (req, res) => {
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
   let response;
-
+  getAnswer();
   // Checks if the message contains text
   if (received_message.text) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
     console.log(goingOutTn);
     response = {
-      "text": goOut()
+      "text": goingOutTn
     }
   }
   // else if (received_message.attachments) {
@@ -109,6 +113,7 @@ function handlePostback(sender_psid, received_postback) {
   let response;
   // Get the payload for the postback
   let payload = received_postback.payload;
+
   switch(payload){
     case "Get Started":
       response = {
@@ -132,8 +137,9 @@ function handlePostback(sender_psid, received_postback) {
     }
     break;
     case "Should I?":
+    getAnswer();
       response={
-        "text": goOut()
+        "text": goingOutTn
       }
     break;
 
@@ -189,9 +195,9 @@ function callSendAPI(sender_psid, response) {
     }
   });
 }
-function goOut() {
+function getAnswer() {
   let randomNum = Math.floor(Math.random() * 10);
   if (randomNum <= 6) {
-    return goingOutTn = 'Yes!';
+    goingOutTn = 'Yes!';
   }
 }
