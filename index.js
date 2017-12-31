@@ -12,6 +12,15 @@ const
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening on port 1337'));
 // Creates the endpoint for our webhook
 app.post('/webhook', (req, res) => {
+  let randomNum = Math.floor(Math.random() * 10);
+  let goingOutTn = 'No!';
+  if (randomNum <= 6) {
+    goingOutTn = 'Yes!';
+  }
+
+
+
+
   let body = req.body;
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
@@ -68,11 +77,7 @@ function handleMessage(sender_psid, received_message) {
   if (received_message.text) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
-    let randomNum = Math.floor(Math.random() * 10);
-    let goingOutTn = 'No!';
-    if(randomNum <= 6){
-      goingOutTn = 'Yes!';
-    }
+
     response = {
       "text": goingOutTn
     }
@@ -119,10 +124,10 @@ function handlePostback(sender_psid, received_postback) {
   let payload = received_postback.payload;
 
   // Set the response based on the postback payload
-  if (payload === 'yes') {
-    response = { "text": "Thanks!" }
-  } else if (payload === 'no') {
-    response = { "text": "Oops, try sending another image." }
+  if (payload === 'Should I Go Out Tonight?') {
+    response = {
+      "text": goingOutTn
+    }
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
@@ -141,7 +146,9 @@ function callSendAPI(sender_psid, response) {
   // Send the HTTP request to the Messenger Platform
   request({
     "uri": "https://graph.facebook.com/v2.6/me/messages",
-    "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
+    "qs": {
+      "access_token": process.env.PAGE_ACCESS_TOKEN
+    },
     "method": "POST",
     "json": request_body
   }, (err, res, body) => {
