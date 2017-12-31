@@ -196,5 +196,7 @@ function getAnswer() {
   console.log(randomNum);
   if (randomNum <= 6) {
     goingOutTn = 'Yes!';
+  }else{
+    goingOutTn = 'No!'
   }
 }
