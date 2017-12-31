@@ -7,8 +7,7 @@ const
   request = require('request'),
   app = express().use(bodyParser.json()); // creates express http server
 let goingOutTn = 'No!';
-getAnswer();
-// Sets server port and logs message on success
+ // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening on port 1337'));
 // Creates the endpoint for our webhook
 app.post('/webhook', (req, res) => {
@@ -193,7 +192,7 @@ function callSendAPI(sender_psid, response) {
   });
 }
 function getAnswer() {
-  let randomNum = Math.floor(Math.random() * 10);
+  let randomNum = (Math.random() * 10);
   console.log(randomNum);
   if (randomNum <= 6) {
     goingOutTn = 'Yes!';
