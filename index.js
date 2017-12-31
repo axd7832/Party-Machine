@@ -121,8 +121,9 @@ function handlePostback(sender_psid, received_postback) {
 
   // Get the payload for the postback
   let payload = received_postback.payload;
+  console.log(payload);
+
   switch(payload){
-    console.log(payload);
     case "Get Started":
       response = {
       "attachment": {
