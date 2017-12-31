@@ -122,6 +122,7 @@ function handlePostback(sender_psid, received_postback) {
   // Get the payload for the postback
   let payload = received_postback.payload;
   switch(payload){
+    console.log(payload);
     case "Get Started":
       response = {
       "attachment": {
@@ -142,12 +143,12 @@ function handlePostback(sender_psid, received_postback) {
         }
       }
     }
-      break;
+    break;
     case "Go":
       response:{
         text: goingOutTn
       }
-      break;
+    break;
 
   }
   // Set the response based on the postback payload
