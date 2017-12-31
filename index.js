@@ -136,8 +136,8 @@ function handlePostback(sender_psid, received_postback) {
             "buttons": [
               {
                 "type": "postback",
-                "title": "Should I Go Out Tonight?",
-                "payload": "Go",
+                "title": "Go",
+                "payload": "Should I?",
               }
             ],
           }]
@@ -145,7 +145,7 @@ function handlePostback(sender_psid, received_postback) {
       }
     }
     break;
-    case "Go":
+    case "Should I?":
       response={
         "text": goingOutTn
       }
