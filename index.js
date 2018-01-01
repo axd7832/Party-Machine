@@ -89,12 +89,12 @@ function handleMessage(sender_psid, received_message) {
         console.log(results);
         let elements =[];
         results.forEach(function(elem){
+          // "image_url": "https://maps.googleapis.com/maps/api/place/photo?" +
+          //   "maxwidth=400" +
+          //   "&photoreference=" + elem.photos[0].photo_reference +
+          //   "&key=" + process.env.GOOGLE_MAPS_KEY,
           let elemTemp={
             "title": elem.name,
-            "image_url": "https://maps.googleapis.com/maps/api/place/photo?" +
-              "maxwidth=400" +
-              "&photoreference=" + elem.photos[0].photo_reference +
-              "&key=" + process.env.GOOGLE_MAPS_KEY,
             "subtitle": elem.vicinity,
             "default_action": {
               "type": "web_url",
