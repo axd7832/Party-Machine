@@ -62,7 +62,7 @@ function handleMessage(sender_psid, received_message) {
   let response;
   if(received_message.attachments){
     console.log("Location Data: ");
-    console.log(received_message.attachments);
+    console.log(received_message.attachments[0].payload);
 
     https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=bar&key=AIzaSyAAdX5SGd6BnzxlHisAbfWDZRPKMufwjKw
     request.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?'+
@@ -70,9 +70,10 @@ function handleMessage(sender_psid, received_message) {
       '&radius=20'+
       '&type=bar'+
       '&key=' + process.env.GOOGLE_MAPS_KEY, function(err,res, body){
-        console.log(res);
-        // console.log(body);
-        console.log(err);
+
+        //console.log(res);
+        //console.log(body);
+        //console.log(err);
       });
     // Take Location and search for events located within 20 Miles
 
