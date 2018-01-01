@@ -61,11 +61,8 @@ function handleMessage(sender_psid, received_message) {
   let response;
   let results;
   if (received_message.attachments) {
-    // console.log("Location Data: ");
     let lat = received_message.attachments[0].payload.coordinates.lat;
     let long = received_message.attachments[0].payload.coordinates.long;
-    // console.log(lat + ', ' + long);
-    // console.log(process.env.GOOGLE_MAPS_KEY);
     request({
       "uri": "https://maps.googleapis.com/maps/api/place/nearbysearch/json",
       "qs": {
@@ -105,13 +102,13 @@ function handleMessage(sender_psid, received_message) {
               console.error("Unable to toggle typing" + err);
             }
             body = JSON.parse(body);
-            console.log("\n\n\nPLACE SEARCH\n\n\n");
+            console.log("PLACE SEARCH");
             console.log(body.result);
             tempRes = body.result;
             console.log(elem);
             let elemTemp = {
               title: elem.name,
-              image_url: "aaaa",
+              image_url: "aa",
               subtitle: elem.vicinity,
               default_action: {
                 type: "web_url",
@@ -139,9 +136,9 @@ function handleMessage(sender_psid, received_message) {
             }
           }
         }
-        // console.log("called send api");
-        // console.log(response);
-        // console.log(response.attachment.payload.elements);
+        console.log("called send api");
+        console.log(response);
+        console.log(response.attachment.payload.elements);
         callSendAPI(sender_psid, response);
       }
     });
