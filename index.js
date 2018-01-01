@@ -102,13 +102,13 @@ function handleMessage(sender_psid, received_message) {
               console.error("Unable to toggle typing" + err);
             }
             body = JSON.parse(body);
-            console.log("PLACE SEARCH");
-            console.log(body.result);
+            //console.log("PLACE SEARCH");
+            //console.log(body.result);
             tempRes = body.result;
-            console.log(elem);
+            //console.log(elem);
             let elemTemp = {
               title: elem.name,
-              image_url: "aa",
+              image_url: "https://petersfancybrownhats.com/company_image.png",
               subtitle: elem.vicinity,
               default_action: {
                 type: "web_url",
