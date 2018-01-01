@@ -88,27 +88,27 @@ function handleMessage(sender_psid, received_message) {
     // Take Location and search for events located within 20 Miles
     if (results) {
       console.log("There are results");
-      // let results = results.splice(0, 10);
-      // response = {
-      //   "template_type": "generic",
-      //   "elements": [{
-      //     "title": results[0].name,
-      //     "image_url": "https://maps.googleapis.com/maps/api/place/photo?" +
-      //       "maxwidth=400" +
-      //       "&photoreference=" + results[0].photos[0].photo_reference +
-      //       "&key=" + process.env.GOOGLE_MAPS_KEY,
-      //     "subtitle": results[0].vicinity,
-      //     "default_action": {
-      //       "type": "web_url",
-      //       "url": "<DEFAULT_URL_TO_OPEN>",
-      //       "webview_height_ratio": "TALL"
-      //     },
-      //     "buttons": []
-      //   }]
-      // }
-      response={
-        "text":"I work"
+      results = results.s lice(0, 10);
+      response = {
+        "template_type": "generic",
+        "elements": [{
+          "title": results[0].name,
+          "image_url": "https://maps.googleapis.com/maps/api/place/photo?" +
+            "maxwidth=400" +
+            "&photoreference=" + results[0].photos[0].photo_reference +
+            "&key=" + process.env.GOOGLE_MAPS_KEY,
+          "subtitle": results[0].vicinity,
+          "default_action": {
+            "type": "web_url",
+            "url": "",
+            "webview_height_ratio": "TALL"
+          },
+          "buttons": []
+        }]
       }
+      // response={
+      //   "text":"I work"
+      // }
     }
     // Send the response message
     console.log("called send api");
