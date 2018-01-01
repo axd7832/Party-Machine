@@ -71,7 +71,7 @@ function handleMessage(sender_psid, received_message) {
       '&radius=20'+
       '&type=bar'+
       '&key=' + process.env.GOOGLE_MAPS_KEY, function(err,res, body){
-        console.log(res);
+        console.log(body);
         //console.log(res);
         //console.log(body);
         //console.log(err);
