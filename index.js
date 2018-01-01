@@ -6,8 +6,8 @@ const
   bodyParser = require('body-parser'),
   request = require('request'),
   app = express().use(bodyParser.json()); // creates express http server
-let goingOutTn = 'No!';
- // Sets server port and logs message on success
+let goingOutTn = false;
+// Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening on port 1337'));
 // Creates the endpoint for our webhook
 app.post('/webhook', (req, res) => {
@@ -66,16 +66,19 @@ function handleMessage(sender_psid, received_message) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
 
-    switch(received_message.text){
+    switch (received_message.text) {
       case "Should I?":
-      getAnswer();
-        response={
-          "text": goingOutTn
+        getAnswer();
+        if(goingOutTn === true){
+
+        }else{
+          response = {
+            "text": goingOutTn
+          }
         }
-      break;
+        break;
     }
   }
-
 
   // Send the response message
   callSendAPI(sender_psid, response);
@@ -87,65 +90,35 @@ function handlePostback(sender_psid, received_postback) {
   // Get the payload for the postback
   let payload = received_postback.payload;
 
-  switch(payload){
+  switch (payload) {
     case "Get Started":
       response = {
-      "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "generic",
-          "elements": [{
-            "title": "Should You Go Out Tonight?",
-            "subtitle": "Click to begin."
-          }]
-        }
-      },
-      "quick_replies":[
-      {
-        "content_type":"text",
-        "title":"Should I?",
-        "payload":"Should I?"
-      }
-    ]
+        "attachment": {
+          "type": "template",
+          "payload": {
+            "template_type": "generic",
+            "elements": [{
+              "title": "Should You Go Out Tonight?",
+              "subtitle": "Click to begin."
+            }]
+          }
+        },
+        "quick_replies": [{
+          "content_type": "text",
+          "title": "Should I?",
+          "payload": "Should I?"
+        }]
 
-    }
-    break;
-    case "Should I?":
-    getAnswer();
-      response={
-        "text": goingOutTn
       }
-    break;
-
+      break;
   }
-  // Set the response based on the postback payload
-  // if (payload === 'Get Started') {
-  //   response = {
-  //     "attachment": {
-  //       "type": "template",
-  //       "payload": {
-  //         "template_type": "generic",
-  //         "elements": [{
-  //           "title": "Should You Go Out Tonight?",
-  //           "subtitle": "Click to begin.",
-  //           "buttons": [
-  //             {
-  //               "type": "postback",
-  //               "title": "Go",
-  //               "payload": "Go",
-  //             }
-  //           ],
-  //         }]
-  //       }
-  //     }
-  //   }
-  // }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
 }
 
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
+  showTyping(sender_psid,true);
   // Construct the message body
   let request_body = {
     "recipient": {
@@ -167,14 +140,46 @@ function callSendAPI(sender_psid, response) {
     } else {
       console.error("Unable to send message:" + err);
     }
+    showTyping(sender_psid,false);
   });
 }
+// Show typing call to Send API
+function showTyping(sender_psid, bool) {
+  // Construct the message body
+  if(bool === true){
+    response = 'typing_on';
+  }else{
+    response = 'typing_off';
+  }
+  let request_body = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "sender_action": response
+  }
+  // Send the HTTP request to the Messenger Platform
+  request({
+    "uri": "https://graph.facebook.com/v2.6/me/messages",
+    "qs": {
+      "access_token": process.env.PAGE_ACCESS_TOKEN
+    },
+    "method": "POST",
+    "json": request_body
+  }, (err, res, body) => {
+    if (!err) {
+      console.log('message sent!')
+    } else {
+      console.error("Unable to send message:" + err);
+    }
+  });
+}
+
 function getAnswer() {
   let randomNum = (Math.random() * 10);
   console.log(randomNum);
   if (randomNum <= 6) {
-    goingOutTn = 'Yes!';
-  }else{
-    goingOutTn = 'No!'
+    goingOutTn = true;
+  } else {
+    goingOutTn = false
   }
 }
