@@ -83,7 +83,7 @@ function handleMessage(sender_psid, received_message) {
       } else {
         console.error("Unable to send message:" + err);
       }
-      if (body.results.length) {
+      if (body.results) {
         let results = body.results.splice(0, 10);
 
 
