@@ -84,6 +84,7 @@ function handleMessage(sender_psid, received_message) {
               "content_type": "location"
             }]
           }
+        }
           else {
             //TODO creative responses for no
             response = {
@@ -91,7 +92,7 @@ function handleMessage(sender_psid, received_message) {
             }
           }
           break;
-        }
+
     }
     // Send the response message
     callSendAPI(sender_psid, response);
