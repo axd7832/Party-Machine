@@ -82,8 +82,12 @@ function handleMessage(sender_psid, received_message) {
       } else {
         console.error("Unable to send message:" + err);
       }
-      console.log(body);
+      // console.log(body);
+      console.log("RESULTS\n\n\n\n\n");
       console.log(body.results);
+
+      console.log("BODY\n\n\n");
+      console.log(body);
       if (body["results"]) {
         console.log("There are results");
         let results = body.results.splice(0, 10);
