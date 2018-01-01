@@ -117,6 +117,7 @@ function handleMessage(sender_psid, received_message) {
         }
         console.log("called send api");
         console.log(response);
+        console.log(response.elements);
         callSendAPI(sender_psid, response);
       }
     });
