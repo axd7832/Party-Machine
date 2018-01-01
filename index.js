@@ -60,31 +60,60 @@ app.get('/webhook', (req, res) => {
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
   let response;
-  if(received_message.attachments){
+  if (received_message.attachments) {
     console.log("Location Data: ");
     let lat = received_message.attachments[0].payload.coordinates.lat;
     let long = received_message.attachments[0].payload.coordinates.long;
     console.log(lat + ', ' + long);
     console.log(process.env.GOOGLE_MAPS_KEY);
 
-      request({
-        "uri": "https://maps.googleapis.com/maps/api/place/nearbysearch/json",
-        "qs": {
-          'location' : lat+','+long,
-          'type' : 'bar',
-          "rankby" : 'distance',
-          'key' : process.env.GOOGLE_MAPS_KEY
-        },
-        "method": "GET",
-      }, (err, res, body) => {
-        if (!err) {
-          console.log('message sent!')
-        } else {
-          console.error("Unable to send message:" + err);
+    request({
+      "uri": "https://maps.googleapis.com/maps/api/place/nearbysearch/json",
+      "qs": {
+        'location': lat + ',' + long,
+        'type': 'bar',
+        'opennow': true,
+        'rankby': 'distance',
+        'key': process.env.GOOGLE_MAPS_KEY
+      },
+      "method": "GET",
+    }, (err, res, body) => {
+      if (!err) {
+        console.log('message sent!')
+      } else {
+        console.error("Unable to send message:" + err);
+      }
+      if (body.results.length) {
+        let results = body.results.splice(0, 10);
+
+
+
+
+
+
+        response = {
+          "template_type": "generic",
+          "elements": [
+            {
+            "title": results[0].name,
+            "image_url": "https://maps.googleapis.com/maps/api/place/photo?"+
+              "maxwidth=400"+
+              "&photoreference="+ results[0].photos[0].photo_reference+
+              "&key=" + process.env.GOOGLE_MAPS_KEY,
+            "subtitle": result[0].vicinity,
+            "default_action": {
+              "type": "web_url",
+              "url": "<DEFAULT_URL_TO_OPEN>",
+              "webview_height_ratio": "TALL"
+            },
+            "buttons": [ ]
+          }
+          ]
         }
-        console.log(body);
-        showTyping(sender_psid, false);
-      });
+      }
+
+      showTyping(sender_psid, false);
+    });
     // Take Location and search for events located within 20 Miles
 
     //Return Top 5 Results
