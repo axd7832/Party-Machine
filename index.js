@@ -119,7 +119,7 @@ function handleMessage(sender_psid, received_message) {
                   default_action: {
                     type: "web_url",
                     url: "https://peterssendreceiveapp.ngrok.io/view?item=103",
-                    messenger_extensions: true,
+                    messenger_extensions: false,
                     webview_height_ratio: "tall",
                     fallback_url: "https://peterssendreceiveapp.ngrok.io/"
                   },
