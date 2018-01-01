@@ -66,7 +66,7 @@ function handleMessage(sender_psid, received_message) {
     let long = received_message.attachments[0].payload.coordinates.long;
     // console.log(lat + ', ' + long);
     // console.log(process.env.GOOGLE_MAPS_KEY);
-    // request({
+    request({
       "uri": "https://maps.googleapis.com/maps/api/place/nearbysearch/json",
       "qs": {
         'location': lat + ',' + long,
