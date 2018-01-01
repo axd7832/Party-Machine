@@ -71,8 +71,8 @@ function handleMessage(sender_psid, received_message) {
         "uri": "https://maps.googleapis.com/maps/api/place/nearbysearch/json",
         "qs": {
           'location' : lat+','+long,
-          'radius' : 20,
           'type' : 'bar',
+          "rank-by" : 'distance'
           'key' : process.env.GOOGLE_MAPS_KEY
         },
         "method": "GET",
