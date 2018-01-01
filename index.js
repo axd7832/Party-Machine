@@ -68,9 +68,10 @@ function handleMessage(sender_psid, received_message) {
 
     switch (received_message.text) {
       case "Should I?":
-        getAnswer();
         if (goingOutTn === true) {
-
+          response = {
+            "text": goingOutTn
+          }
         } else {
           response = {
             "text": goingOutTn
@@ -112,9 +113,12 @@ function handlePostback(sender_psid, received_postback) {
       }
       break;
     case "Should I?":
+    console.log("postback");
       getAnswer();
       if (goingOutTn === true) {
-
+        response = {
+          "text": goingOutTn
+        }
       } else {
         response = {
           "text": goingOutTn
@@ -188,7 +192,6 @@ function showTyping(sender_psid, bool) {
 
 function getAnswer() {
   let randomNum = (Math.random() * 10);
-  console.log(randomNum);
   if (randomNum <= 6) {
     goingOutTn = true;
   } else {
