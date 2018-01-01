@@ -65,7 +65,7 @@ function handleMessage(sender_psid, received_message) {
     let long = received_message.attachments[0].payload.coordinates.long;
     console.log(lat + ', ' + long);
     console.log(process.env.GOOGLE_MAPS_KEY);
-
+    let results=[];
     request({
       "uri": "https://maps.googleapis.com/maps/api/place/nearbysearch/json",
       "qs": {
@@ -83,33 +83,36 @@ function handleMessage(sender_psid, received_message) {
         console.error("Unable to send message:" + err);
       }
       body = JSON.parse(body);
-      if (body.results) {
-        console.log("There are results");
-        let results = body.results.splice(0, 10);
-        response = {
-          "template_type": "generic",
-          "elements": [{
-            "title": results[0].name,
-            "image_url": "https://maps.googleapis.com/maps/api/place/photo?" +
-              "maxwidth=400" +
-              "&photoreference=" + results[0].photos[0].photo_reference +
-              "&key=" + process.env.GOOGLE_MAPS_KEY,
-            "subtitle": results[0].vicinity,
-            "default_action": {
-              "type": "web_url",
-              "url": "<DEFAULT_URL_TO_OPEN>",
-              "webview_height_ratio": "TALL"
-            },
-            "buttons": []
-          }]
-        }
-      }
-      // Send the response message
-      console.log("called send api");
-      callSendAPI(sender_psid, response);
+      results = body.results;
     });
     // Take Location and search for events located within 20 Miles
-
+    if (results) {
+      console.log("There are results");
+      let results = results.splice(0, 10);
+      // response = {
+      //   "template_type": "generic",
+      //   "elements": [{
+      //     "title": results[0].name,
+      //     "image_url": "https://maps.googleapis.com/maps/api/place/photo?" +
+      //       "maxwidth=400" +
+      //       "&photoreference=" + results[0].photos[0].photo_reference +
+      //       "&key=" + process.env.GOOGLE_MAPS_KEY,
+      //     "subtitle": results[0].vicinity,
+      //     "default_action": {
+      //       "type": "web_url",
+      //       "url": "<DEFAULT_URL_TO_OPEN>",
+      //       "webview_height_ratio": "TALL"
+      //     },
+      //     "buttons": []
+      //   }]
+      // }
+      response={
+        "text":"I work"
+      }
+    }
+    // Send the response message
+    console.log("called send api");
+    callSendAPI(sender_psid, response);
     //Return Top 5 Results
 
   }
