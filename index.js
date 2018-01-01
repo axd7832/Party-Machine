@@ -69,9 +69,9 @@ function handleMessage(sender_psid, received_message) {
     switch (received_message.text) {
       case "Should I?":
         getAnswer();
-        if(goingOutTn === true){
+        if (goingOutTn === true) {
 
-        }else{
+        } else {
           response = {
             "text": goingOutTn
           }
@@ -111,6 +111,17 @@ function handlePostback(sender_psid, received_postback) {
 
       }
       break;
+    case "Should I?":
+      getAnswer();
+      if (goingOutTn === true) {
+
+      } else {
+        response = {
+          "text": goingOutTn
+        }
+      }
+      break;
+
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
@@ -118,7 +129,7 @@ function handlePostback(sender_psid, received_postback) {
 
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
-  showTyping(sender_psid,true);
+  showTyping(sender_psid, true);
   // Construct the message body
   let request_body = {
     "recipient": {
@@ -140,16 +151,16 @@ function callSendAPI(sender_psid, response) {
     } else {
       console.error("Unable to send message:" + err);
     }
-    showTyping(sender_psid,false);
+    showTyping(sender_psid, false);
   });
 }
 // Show typing call to Send API
 function showTyping(sender_psid, bool) {
   // Construct the message body
-  let response ='typing_off';
-  if(bool === true){
+  let response = 'typing_off';
+  if (bool === true) {
     response = 'typing_on';
-  }else{
+  } else {
     response = 'typing_off';
   }
   let request_body = {
@@ -168,9 +179,9 @@ function showTyping(sender_psid, bool) {
     "json": request_body
   }, (err, res, body) => {
     if (!err) {
-      console.log('message sent!')
+      console.log('toggled typing')
     } else {
-      console.error("Unable to send message:" + err);
+      console.error("Unable to toggle typing" + err);
     }
   });
 }
