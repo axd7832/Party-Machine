@@ -122,16 +122,7 @@ function handleMessage(sender_psid, received_message) {
                     messenger_extensions: false,
                     webview_height_ratio: "tall",
                     fallback_url: "https://peterssendreceiveapp.ngrok.io/"
-                  },
-                  buttons: [{
-                    type: "web_url",
-                    url: "https://petersfancybrownhats.com",
-                    title: "View Website"
-                  }, {
-                    type: "postback",
-                    title: "Start Chatting",
-                    payload: "DEVELOPER_DEFINED_PAYLOAD"
-                  }]
+                  }
                 }
               ]
             }
