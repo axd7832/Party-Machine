@@ -75,15 +75,14 @@ function handleMessage(sender_psid, received_message) {
         'rankby': 'distance',
         'key': process.env.GOOGLE_MAPS_KEY
       },
-      "method": "GET",
-      "json": true
+      "method": "GET"
     }, (err, res, body) => {
       if (!err) {
         console.log('message sent!')
       } else {
         console.error("Unable to send message:" + err);
       }
-      // body = JSON.parse(body);
+      body = JSON.parse(body);
       console.log(body.results);
       if (body.results) {
         console.log("There are results");
