@@ -219,6 +219,7 @@ function handlePostback(sender_psid, received_postback) {
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
   showTyping(sender_psid, true);
+  console.log("In call send api");
   // Construct the message body
   let request_body = {
     "recipient": {
@@ -226,6 +227,7 @@ function callSendAPI(sender_psid, response) {
     },
     "message": response
   }
+  console.log(request_body);
   // Send the HTTP request to the Messenger Platform
   request({
     "uri": "https://graph.facebook.com/v2.6/me/messages",
@@ -240,6 +242,7 @@ function callSendAPI(sender_psid, response) {
     } else {
       console.error("Unable to send message:" + err);
     }
+    console.log(body);
     showTyping(sender_psid, false);
   });
 }
