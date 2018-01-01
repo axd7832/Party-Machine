@@ -56,7 +56,6 @@ app.get('/webhook', (req, res) => {
     }
   }
 });
-
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
   let response;
@@ -83,7 +82,8 @@ function handleMessage(sender_psid, received_message) {
       } else {
         console.error("Unable to send message:" + err);
       }
-      // console.log(body);
+      console.log(body);
+      console.log(body.results);
       if (body["results"]) {
         console.log("There are results");
         let results = body.results.splice(0, 10);
