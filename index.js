@@ -106,29 +106,28 @@ function handleMessage(sender_psid, received_message) {
             }
             body = JSON.parse(body);
             tempRes = body.result;
-          });
-
-          console.log(elem);
-          let elemTemp = {
-            title: elem.name,
-            image_url: "https://petersfancybrownhats.com/company_image.png",
-            subtitle: elem.vicinity,
-            default_action: {
-              type: "web_url",
-              url: tempRes.website,
-              messenger_extensions: false,
-              webview_height_ratio: "tall"
+            console.log(elem);
+            let elemTemp = {
+              title: elem.name,
+              image_url: "https://petersfancybrownhats.com/company_image.png",
+              subtitle: elem.vicinity,
+              default_action: {
+                type: "web_url",
+                url: tempRes.website,
+                messenger_extensions: false,
+                webview_height_ratio: "tall"
+              }
             }
-          }
-
-          if(elem.photos != undefined){
-            elemTemp.image_url= "https://maps.googleapis.com/maps/api/place/photo?" +
-              "maxwidth=400" +
-              "&photoreference=" + elem.photos[0].photo_reference +
-              "&key=" + process.env.GOOGLE_MAPS_KEY
-          }
-          elements.push(elemTemp);
+            if(elem.photos != undefined){
+              elemTemp.image_url= "https://maps.googleapis.com/maps/api/place/photo?" +
+                "maxwidth=400" +
+                "&photoreference=" + elem.photos[0].photo_reference +
+                "&key=" + process.env.GOOGLE_MAPS_KEY
+            }
+            elements.push(elemTemp);
+          });
         });
+
         response = {
           attachment: {
             type: "template",
