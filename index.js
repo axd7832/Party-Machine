@@ -93,108 +93,107 @@ function handleMessage(sender_psid, received_message) {
           break;
         }
     }
+    // Send the response message
+    callSendAPI(sender_psid, response);
   }
-  // Send the response message
-  callSendAPI(sender_psid, response);
-}
 
-// Handles messaging_postbacks events
-function handlePostback(sender_psid, received_postback) {
-  let response;
-  // Get the payload for the postback
-  let payload = received_postback.payload;
+  // Handles messaging_postbacks events
+  function handlePostback(sender_psid, received_postback) {
+    let response;
+    // Get the payload for the postback
+    let payload = received_postback.payload;
 
-  switch (payload) {
-    case "Get Started":
-      response = {
-        "attachment": {
-          "type": "template",
-          "payload": {
-            "template_type": "generic",
-            "elements": [{
-              "title": "Should You Go Out Tonight?",
-              "subtitle": "Click to begin."
-            }]
-          }
-        },
-        "quick_replies": [{
-          "content_type": "text",
-          "title": "Should I?",
-          "payload": "Should I?"
-        }]
+    switch (payload) {
+      case "Get Started":
+        response = {
+          "attachment": {
+            "type": "template",
+            "payload": {
+              "template_type": "generic",
+              "elements": [{
+                "title": "Should You Go Out Tonight?",
+                "subtitle": "Click to begin."
+              }]
+            }
+          },
+          "quick_replies": [{
+            "content_type": "text",
+            "title": "Should I?",
+            "payload": "Should I?"
+          }]
 
+        }
+        break;
+
+    }
+    // Send the message to acknowledge the postback
+    callSendAPI(sender_psid, response);
+  }
+
+  // Sends response messages via the Send API
+  function callSendAPI(sender_psid, response) {
+    showTyping(sender_psid, true);
+    // Construct the message body
+    let request_body = {
+      "recipient": {
+        "id": sender_psid
+      },
+      "message": response
+    }
+    // Send the HTTP request to the Messenger Platform
+    request({
+      "uri": "https://graph.facebook.com/v2.6/me/messages",
+      "qs": {
+        "access_token": process.env.PAGE_ACCESS_TOKEN
+      },
+      "method": "POST",
+      "json": request_body
+    }, (err, res, body) => {
+      if (!err) {
+        console.log('message sent!')
+      } else {
+        console.error("Unable to send message:" + err);
       }
-      break;
-
+      showTyping(sender_psid, false);
+    });
   }
-  // Send the message to acknowledge the postback
-  callSendAPI(sender_psid, response);
-}
-
-// Sends response messages via the Send API
-function callSendAPI(sender_psid, response) {
-  showTyping(sender_psid, true);
-  // Construct the message body
-  let request_body = {
-    "recipient": {
-      "id": sender_psid
-    },
-    "message": response
-  }
-  // Send the HTTP request to the Messenger Platform
-  request({
-    "uri": "https://graph.facebook.com/v2.6/me/messages",
-    "qs": {
-      "access_token": process.env.PAGE_ACCESS_TOKEN
-    },
-    "method": "POST",
-    "json": request_body
-  }, (err, res, body) => {
-    if (!err) {
-      console.log('message sent!')
+  // Show typing call to Send API
+  function showTyping(sender_psid, bool) {
+    // Construct the message body
+    let response = 'typing_off';
+    if (bool === true) {
+      response = 'typing_on';
     } else {
-      console.error("Unable to send message:" + err);
+      response = 'typing_off';
     }
-    showTyping(sender_psid, false);
-  });
-}
-// Show typing call to Send API
-function showTyping(sender_psid, bool) {
-  // Construct the message body
-  let response = 'typing_off';
-  if (bool === true) {
-    response = 'typing_on';
-  } else {
-    response = 'typing_off';
-  }
-  let request_body = {
-    "recipient": {
-      "id": sender_psid
-    },
-    "sender_action": response
-  }
-  // Send the HTTP request to the Messenger Platform
-  request({
-    "uri": "https://graph.facebook.com/v2.6/me/messages",
-    "qs": {
-      "access_token": process.env.PAGE_ACCESS_TOKEN
-    },
-    "method": "POST",
-    "json": request_body
-  }, (err, res, body) => {
-    if (!err) {
-      console.log('toggled typing')
-    } else {
-      console.error("Unable to toggle typing" + err);
+    let request_body = {
+      "recipient": {
+        "id": sender_psid
+      },
+      "sender_action": response
     }
-  });
-}
+    // Send the HTTP request to the Messenger Platform
+    request({
+      "uri": "https://graph.facebook.com/v2.6/me/messages",
+      "qs": {
+        "access_token": process.env.PAGE_ACCESS_TOKEN
+      },
+      "method": "POST",
+      "json": request_body
+    }, (err, res, body) => {
+      if (!err) {
+        console.log('toggled typing')
+      } else {
+        console.error("Unable to toggle typing" + err);
+      }
+    });
+  }
 
-function getAnswer() {
-  let randomNum = (Math.random() * 10);
-  if (randomNum <= 6) {
-    goingOutTn = true;
-  } else {
-    goingOutTn = false
+  function getAnswer() {
+    let randomNum = (Math.random() * 10);
+    if (randomNum <= 6) {
+      goingOutTn = true;
+    } else {
+      goingOutTn = false
+    }
   }
-}
