@@ -72,7 +72,7 @@ function handleMessage(sender_psid, received_message) {
       '&key=' + process.env.GOOGLE_MAPS_KEY, function(err,res, body){
         console.log(res);
         console.log(body);
-        console.log(error);
+        console.log(err);
       });
     // Take Location and search for events located within 20 Miles
 
