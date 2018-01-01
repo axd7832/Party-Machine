@@ -111,7 +111,7 @@ function handleMessage(sender_psid, received_message) {
             console.log(elem);
             let elemTemp = {
               title: elem.name,
-              image_url: "",
+              image_url: "aaaa",
               subtitle: elem.vicinity,
               default_action: {
                 type: "web_url",
