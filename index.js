@@ -62,7 +62,7 @@ function handleMessage(sender_psid, received_message) {
   let response;
   if(received_message.attachments){
     console.log("Location Data: ");
-    console.log(received_message.attachments.payload.coordinates);
+    console.log(received_message.attachments.payload);
 
     https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=bar&key=AIzaSyAAdX5SGd6BnzxlHisAbfWDZRPKMufwjKw
     request.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?'+
