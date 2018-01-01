@@ -86,26 +86,29 @@ function handleMessage(sender_psid, received_message) {
       results = body.results;
       if (results) {
         results = results.slice(0, 10);
-        // response = {
-        //   "template_type": "generic",
-        //   "elements": [{
-        //     "title": results[0].name,
-        //     "image_url": "https://maps.googleapis.com/maps/api/place/photo?" +
-        //       "maxwidth=400" +
-        //       "&photoreference=" + results[0].photos[0].photo_reference +
-        //       "&key=" + process.env.GOOGLE_MAPS_KEY,
-        //     "subtitle": results[0].vicinity,
-        //     "default_action": {
-        //       "type": "web_url",
-        //       "url": "",
-        //       "webview_height_ratio": "TALL"
-        //     },
-        //     "buttons": []
-        //   }]
-        // }
-        response={
-          "text":"I work"
+        console.log(results);
+        results.forEach(function(elem){
+          let elemTemp={
+            "title": elem.name,
+            "image_url": "https://maps.googleapis.com/maps/api/place/photo?" +
+              "maxwidth=400" +
+              "&photoreference=" + elem.photos[0].photo_reference +
+              "&key=" + process.env.GOOGLE_MAPS_KEY,
+            "subtitle": elem.vicinity,
+            "default_action": {
+              "type": "web_url",
+              "url": "",
+              "webview_height_ratio": "TALL"
+            },
+            "buttons": []
+          }
+          elements.push(elemTemp);
+        });
+        response = {
+          "template_type": "generic",
+          "elements": elements
         }
+
       }
       // Send the response message
       console.log("called send api");
