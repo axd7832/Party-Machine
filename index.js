@@ -86,13 +86,14 @@ function handleMessage(sender_psid, received_message) {
       results = body.results;
       if (results) {
         results = results.slice(0, 10);
-        console.log(results);
+        // console.log(results);
         let elements =[];
         results.forEach(function(elem){
           // "image_url": "https://maps.googleapis.com/maps/api/place/photo?" +
           //   "maxwidth=400" +
           //   "&photoreference=" + elem.photos[0].photo_reference +
           //   "&key=" + process.env.GOOGLE_MAPS_KEY,
+          console.log(elem);
           let elemTemp={
             "title": elem.name,
             "subtitle": elem.vicinity,
