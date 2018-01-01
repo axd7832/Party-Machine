@@ -60,16 +60,30 @@ app.get('/webhook', (req, res) => {
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
   let response;
-  getAnswer();
   if(received_message.attachments){
     console.log("Location Data: ");
-    console.log(received_message.attachments);
+    console.log(received_message.attachments.payload.coordinates);
+
+    https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=bar&key=AIzaSyAAdX5SGd6BnzxlHisAbfWDZRPKMufwjKw
+    request.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?'+
+      'location=-33.8670522,151.1957362&'+
+      '&radius=20'+
+      '&type=bar'+
+      '&key=' + process.env.GOOGLE_MAPS_KEY, function(err,res, body){
+        console.log(res);
+        console.log(body);
+        console.log(error);
+      });
+    // Take Location and search for events located within 20 Miles
+
+    //Return Top 5 Results
 
   }
   // Checks if the message contains text
   if (received_message.text) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
+    getAnswer();
 
     switch (received_message.text) {
       case "Should I?":
