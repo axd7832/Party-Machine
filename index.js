@@ -106,6 +106,13 @@ function handleMessage(sender_psid, received_message) {
               webview_height_ratio: "tall"
             }
           }
+
+          if(elem.photos != undefined){
+            elemTemp.image_url= "https://maps.googleapis.com/maps/api/place/photo?" +
+              "maxwidth=400" +
+              "&photoreference=" + elem.photos[0].photo_reference +
+              "&key=" + process.env.GOOGLE_MAPS_KEY
+          }
           elements.push(elemTemp);
         });
         response = {
