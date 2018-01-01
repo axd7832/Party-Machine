@@ -87,6 +87,7 @@ function handleMessage(sender_psid, received_message) {
       if (results) {
         results = results.slice(0, 10);
         console.log(results);
+        let elements =[];
         results.forEach(function(elem){
           let elemTemp={
             "title": elem.name,
