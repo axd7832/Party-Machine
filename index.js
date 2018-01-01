@@ -72,7 +72,7 @@ function handleMessage(sender_psid, received_message) {
         "qs": {
           'location' : lat+','+long,
           'type' : 'bar',
-          "rank-by" : 'distance'
+          "rank-by" : 'distance',
           'key' : process.env.GOOGLE_MAPS_KEY
         },
         "method": "GET",
