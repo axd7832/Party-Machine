@@ -106,7 +106,7 @@ function handleMessage(sender_psid, received_message) {
             }
             body = JSON.parse(body);
             console.log("PLACE SEARCH");
-            console.log(body);
+            console.log(body.result);
             tempRes = body.result;
             console.log(elem);
             let elemTemp = {
