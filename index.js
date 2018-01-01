@@ -88,7 +88,7 @@ function handleMessage(sender_psid, received_message) {
     // Take Location and search for events located within 20 Miles
     if (results) {
       console.log("There are results");
-      let results = results.splice(0, 10);
+      // let results = results.splice(0, 10);
       // response = {
       //   "template_type": "generic",
       //   "elements": [{
