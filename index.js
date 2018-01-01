@@ -65,40 +65,17 @@ function handleMessage(sender_psid, received_message) {
   if (received_message.text) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
-    console.log(goingOutTn);
-    response = {
-      "text": goingOutTn
+
+    switch(received_message.text){
+      case "Should I?":
+      getAnswer();
+        response={
+          "text": goingOutTn
+        }
+      break;
     }
   }
-  // else if (received_message.attachments) {
-  //   // Get the URL of the message attachment
-  //   let attachment_url = received_message.attachments[0].payload.url;
-  //   response = {
-  //     "attachment": {
-  //       "type": "template",
-  //       "payload": {
-  //         "template_type": "generic",
-  //         "elements": [{
-  //           "title": "Is this the right picture?",
-  //           "subtitle": "Tap a button to answer.",
-  //           "image_url": attachment_url,
-  //           "buttons": [
-  //             {
-  //               "type": "postback",
-  //               "title": "Yes!",
-  //               "payload": "yes",
-  //             },
-  //             {
-  //               "type": "postback",
-  //               "title": "No!",
-  //               "payload": "no",
-  //             }
-  //           ],
-  //         }]
-  //       }
-  //     }
-  //   }
-  // }
+
 
   // Send the response message
   callSendAPI(sender_psid, response);
@@ -119,17 +96,18 @@ function handlePostback(sender_psid, received_postback) {
           "template_type": "generic",
           "elements": [{
             "title": "Should You Go Out Tonight?",
-            "subtitle": "Click to begin.",
-            "buttons": [
-              {
-                "type": "postback",
-                "title": "Should I?",
-                "payload": "Should I?",
-              }
-            ],
+            "subtitle": "Click to begin."
           }]
         }
+      },
+      "quick_replies":[
+      {
+        "content_type":"text",
+        "title":"Should I?",
+        "payload":"Should I?"
       }
+    ]
+
     }
     break;
     case "Should I?":
