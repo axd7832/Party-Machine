@@ -87,14 +87,14 @@ function handleMessage(sender_psid, received_message) {
       if (results) {
         results = results.slice(0, 10);
         // console.log(results);
-        let elements =[];
-        results.forEach(function(elem){
+        let elements = [];
+        results.forEach(function(elem) {
           // "image_url": "https://maps.googleapis.com/maps/api/place/photo?" +
           //   "maxwidth=400" +
           //   "&photoreference=" + elem.photos[0].photo_reference +
           //   "&key=" + process.env.GOOGLE_MAPS_KEY,
           console.log(elem);
-          let elemTemp={
+          let elemTemp = {
             "title": elem.name,
             "subtitle": elem.vicinity,
             "default_action": {
@@ -106,19 +106,18 @@ function handleMessage(sender_psid, received_message) {
           }
           elements.push(elemTemp);
         });
-        response = {
-          "template_type": "generic",
-          "elements": elements
+        response = "attachment": {
+          "type": "template",
+          "payload": {
+            "template_type": "generic",
+            "elements": elements
+          }
         }
-
+        console.log("called send api");
+        console.log(response);
+        callSendAPI(sender_psid, response);
       }
-      // Send the response message
-      console.log("called send api");
-      callSendAPI(sender_psid, response);
-      //Return Top 5 Results
     });
-
-
   }
   // Checks if the message contains text
   if (received_message.text) {
