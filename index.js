@@ -76,13 +76,14 @@ function handleMessage(sender_psid, received_message) {
         'key': process.env.GOOGLE_MAPS_KEY
       },
       "method": "GET",
+      "json": true
     }, (err, res, body) => {
       if (!err) {
         console.log('message sent!')
       } else {
         console.error("Unable to send message:" + err);
       }
-      body = JSON.parse(body);
+      // body = JSON.parse(body);
       console.log(body.results);
       if (body.results) {
         console.log("There are results");
@@ -96,7 +97,7 @@ function handleMessage(sender_psid, received_message) {
               "maxwidth=400" +
               "&photoreference=" + results[0].photos[0].photo_reference +
               "&key=" + process.env.GOOGLE_MAPS_KEY,
-            "subtitle": result[0].vicinity,
+            "subtitle": results[0].vicinity,
             "default_action": {
               "type": "web_url",
               "url": "<DEFAULT_URL_TO_OPEN>",
