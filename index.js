@@ -90,23 +90,23 @@ function handleMessage(sender_psid, received_message) {
       results = results.slice(0, 10);
       console.log('RESULTS: ');
       console.log(results);
-      response = {
-        "template_type": "generic",
-        "elements": [{
-          "title": results[0].name,
-          "image_url": "https://maps.googleapis.com/maps/api/place/photo?" +
-            "maxwidth=400" +
-            "&photoreference=" + results[0].photos[0].photo_reference +
-            "&key=" + process.env.GOOGLE_MAPS_KEY,
-          "subtitle": results[0].vicinity,
-          "default_action": {
-            "type": "web_url",
-            "url": "",
-            "webview_height_ratio": "TALL"
-          },
-          "buttons": []
-        }]
-      }
+      // response = {
+      //   "template_type": "generic",
+      //   "elements": [{
+      //     "title": results[0].name,
+      //     "image_url": "https://maps.googleapis.com/maps/api/place/photo?" +
+      //       "maxwidth=400" +
+      //       "&photoreference=" + results[0].photos[0].photo_reference +
+      //       "&key=" + process.env.GOOGLE_MAPS_KEY,
+      //     "subtitle": results[0].vicinity,
+      //     "default_action": {
+      //       "type": "web_url",
+      //       "url": "",
+      //       "webview_height_ratio": "TALL"
+      //     },
+      //     "buttons": []
+      //   }]
+      // }
       // response={
       //   "text":"I work"
       // }
