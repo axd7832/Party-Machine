@@ -64,7 +64,7 @@ function handleMessage(sender_psid, received_message) {
     console.log("Location Data: ");
     let lat = received_message.attachments[0].payload.coordinates.lat;
     let long = received_message.attachments[0].payload.long;
-    console.log(lat + ', ' long);
+    console.log(lat + ', ' + long);
     console.log(process.env.GOOGLE_MAPS_KEY);
 
       request({
