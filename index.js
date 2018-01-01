@@ -59,13 +59,13 @@ app.get('/webhook', (req, res) => {
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
   let response;
+  let results;
   if (received_message.attachments) {
     console.log("Location Data: ");
     let lat = received_message.attachments[0].payload.coordinates.lat;
     let long = received_message.attachments[0].payload.coordinates.long;
     console.log(lat + ', ' + long);
     console.log(process.env.GOOGLE_MAPS_KEY);
-    let results=[];
     request({
       "uri": "https://maps.googleapis.com/maps/api/place/nearbysearch/json",
       "qs": {
@@ -83,6 +83,7 @@ function handleMessage(sender_psid, received_message) {
         console.error("Unable to send message:" + err);
       }
       body = JSON.parse(body);
+      console.log(body.results);
       results = body.results;
     });
     if (results) {
