@@ -65,15 +65,15 @@ function handleMessage(sender_psid, received_message) {
     let lat = received_message.attachments[0].payload.coordinates.lat;
     let long = received_message.attachments[0].payload.long;
 
-    
+
 
       request({
         "uri": "https://maps.googleapis.com/maps/api/place/nearbysearch/json",
         "qs": {
-          'location' = lat+','+long,
-          'radius' = 20,
-          'type' = 'bar',
-          'key' = process.env.GOOGLE_MAPS_KEY
+          'location' : lat+','+long,
+          'radius' : 20,
+          'type' : 'bar',
+          'key' : process.env.GOOGLE_MAPS_KEY
         },
         "method": "GET",
       }, (err, res, body) => {
