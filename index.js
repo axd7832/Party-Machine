@@ -85,20 +85,14 @@ function handleMessage(sender_psid, received_message) {
       }
       if (body.results) {
         let results = body.results.splice(0, 10);
-
-
-
-
-
-
+        console.log(results);
         response = {
           "template_type": "generic",
-          "elements": [
-            {
+          "elements": [{
             "title": results[0].name,
-            "image_url": "https://maps.googleapis.com/maps/api/place/photo?"+
-              "maxwidth=400"+
-              "&photoreference="+ results[0].photos[0].photo_reference+
+            "image_url": "https://maps.googleapis.com/maps/api/place/photo?" +
+              "maxwidth=400" +
+              "&photoreference=" + results[0].photos[0].photo_reference +
               "&key=" + process.env.GOOGLE_MAPS_KEY,
             "subtitle": result[0].vicinity,
             "default_action": {
@@ -106,13 +100,12 @@ function handleMessage(sender_psid, received_message) {
               "url": "<DEFAULT_URL_TO_OPEN>",
               "webview_height_ratio": "TALL"
             },
-            "buttons": [ ]
-          }
-          ]
+            "buttons": []
+          }]
         }
       }
-
-      showTyping(sender_psid, false);
+      // Send the response message
+      callSendAPI(sender_psid, response);
     });
     // Take Location and search for events located within 20 Miles
 
@@ -152,10 +145,10 @@ function handleMessage(sender_psid, received_message) {
         }
         break;
     }
-  }
 
-  // Send the response message
-  callSendAPI(sender_psid, response);
+    // Send the response message
+    callSendAPI(sender_psid, response);
+  }
 }
 
 // Handles messaging_postbacks events
