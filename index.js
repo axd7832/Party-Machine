@@ -85,7 +85,7 @@ function handleMessage(sender_psid, received_message) {
       body = JSON.parse(body);
       results = body.results;
       if (results) {
-        results = results.slice(0, 10);
+        results = results.slice(0, 1);
         // console.log(results);
         let elements = [];
         results.forEach(function(elem) {
@@ -93,16 +93,18 @@ function handleMessage(sender_psid, received_message) {
           //   "maxwidth=400" +
           //   "&photoreference=" + elem.photos[0].photo_reference +
           //   "&key=" + process.env.GOOGLE_MAPS_KEY,
+
           console.log(elem);
           let elemTemp = {
-            "title": elem.name,
-            "subtitle": elem.vicinity,
-            "default_action": {
-              "type": "web_url",
-              "url": "",
-              "webview_height_ratio": "TALL"
-            },
-            "buttons": []
+            title: elem.name,
+            image_url: "https://petersfancybrownhats.com/company_image.png",
+            subtitle: elem.vicinity,
+            default_action: {
+              type: "web_url",
+              url: "https://peterssendreceiveapp.ngrok.io/view?item=103",
+              messenger_extensions: false,
+              webview_height_ratio: "tall"
+            }
           }
           elements.push(elemTemp);
         });
@@ -111,19 +113,7 @@ function handleMessage(sender_psid, received_message) {
             type: "template",
             payload: {
               template_type: "generic",
-              elements: [
-                {
-                  title: "Welcome to Peter'\''s Hats",
-                  image_url: "https://petersfancybrownhats.com/company_image.png",
-                  subtitle: "We'\''ve got the right hat for everyone.",
-                  default_action: {
-                    type: "web_url",
-                    url: "https://peterssendreceiveapp.ngrok.io/view?item=103",
-                    messenger_extensions: false,
-                    webview_height_ratio: "tall"
-                  }
-                }
-              ]
+              elements: elements
             }
           }
         }
