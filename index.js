@@ -84,7 +84,7 @@ function handleMessage(sender_psid, received_message) {
         console.error("Unable to send message:" + err);
       }
       // console.log(body);
-      if (body.results != undefined) {
+      if (body["results"]) {
         console.log("There are results");
         let results = body.results.splice(0, 10);
         console.log(results);
