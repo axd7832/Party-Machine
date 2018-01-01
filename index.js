@@ -61,7 +61,11 @@ app.get('/webhook', (req, res) => {
 function handleMessage(sender_psid, received_message) {
   let response;
   getAnswer();
-  console.log(received_message);
+  if(received_message.attachments){
+    console.log("Location Data: ");
+    console.log(received_message.attachments);
+
+  }
   // Checks if the message contains text
   if (received_message.text) {
     // Create the payload for a basic text message, which
