@@ -107,15 +107,27 @@ function handleMessage(sender_psid, received_message) {
             tempRes = body.result;
             //console.log(elem);
             let elemTemp = {
-              title: elem.name,
-              image_url: "https://petersfancybrownhats.com/company_image.png",
-              subtitle: elem.vicinity,
-              default_action: {
-                type: "web_url",
-                url: tempRes.website,
-                messenger_extensions: false,
-                webview_height_ratio: "tall"
+            title:"Welcome to Peter\'s Hats",
+            image_url:"https://petersfancybrownhats.com/company_image.png",
+            subtitle:"We'\''ve got the right hat for everyone.",
+            default_action: {
+              type: "web_url",
+              url: "https://peterssendreceiveapp.ngrok.io/view?item=103",
+              messenger_extensions: false,
+              webview_height_ratio: "tall"
+            },
+            buttons:[
+              {
+                type:"web_url",
+                url:"https://petersfancybrownhats.com",
+                title:"View Website"
+              },{
+                type:"postback",
+                title:"Start Chatting",
+                payload:"DEVELOPER_DEFINED_PAYLOAD"
               }
+            ]
+          }
             }
             if(elem.photos != undefined){
               elemTemp.image_url= "https://maps.googleapis.com/maps/api/place/photo?" +
