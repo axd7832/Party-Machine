@@ -107,11 +107,11 @@ function handleMessage(sender_psid, received_message) {
           elements.push(elemTemp);
         });
         response = {
-          "attachment": {
-            "type": "template",
-            "payload": {
-              "template_type": "generic",
-              "elements": elements
+          attachment: {
+            type: "template",
+            payload: {
+              template_type: "generic",
+              elements: elements
             }
           }
         }
