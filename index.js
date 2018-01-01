@@ -67,7 +67,7 @@ function handleMessage(sender_psid, received_message) {
 
     https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=bar&key=AIzaSyAAdX5SGd6BnzxlHisAbfWDZRPKMufwjKw
     request.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?'+
-      'location='+lat+','+long
+      'location='+lat+','+long+
       '&radius=20'+
       '&type=bar'+
       '&key=' + process.env.GOOGLE_MAPS_KEY, function(err,res, body){
