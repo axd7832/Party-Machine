@@ -111,8 +111,8 @@ function handleMessage(sender_psid, received_message) {
             type: "template",
             payload: {
               template_type: "generic",
-              elements: {
-                [
+              elements: [
+                {
                   title: "Welcome to Peter'\''s Hats",
                   image_url: "https://petersfancybrownhats.com/company_image.png",
                   subtitle: "We'\''ve got the right hat for everyone.",
@@ -132,9 +132,8 @@ function handleMessage(sender_psid, received_message) {
                     title: "Start Chatting",
                     payload: "DEVELOPER_DEFINED_PAYLOAD"
                   }]
-                ]
-
-              }
+                }
+              ]
             }
           }
         }
