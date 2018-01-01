@@ -146,6 +146,7 @@ function callSendAPI(sender_psid, response) {
 // Show typing call to Send API
 function showTyping(sender_psid, bool) {
   // Construct the message body
+  let response ='typing_off';
   if(bool === true){
     response = 'typing_on';
   }else{
