@@ -83,11 +83,9 @@ function handleMessage(sender_psid, received_message) {
         console.error("Unable to send message:" + err);
       }
       body = JSON.parse(body);
-      console.log(body.results);
       if (body.results) {
         console.log("There are results");
         let results = body.results.splice(0, 10);
-        console.log(results);
         response = {
           "template_type": "generic",
           "elements": [{
@@ -107,6 +105,7 @@ function handleMessage(sender_psid, received_message) {
         }
       }
       // Send the response message
+      console.log("called send api");
       callSendAPI(sender_psid, response);
     });
     // Take Location and search for events located within 20 Miles
