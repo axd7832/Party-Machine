@@ -60,7 +60,6 @@ app.get('/webhook', (req, res) => {
 function handleMessage(sender_psid, received_message) {
   let response;
   let results;
-  let filteredResults=[];
   // Checking for location info
   if (received_message.attachments) {
     let lat = received_message.attachments[0].payload.coordinates.lat;
@@ -90,12 +89,12 @@ function handleMessage(sender_psid, received_message) {
         console.log(results);
         // console.log(results);
         let elements = [];
-        for(let i=0; i<results.length; i++){
+        results.forEach(elem,index){
           //Get More info on place
           request({
             "uri": "https://maps.googleapis.com/maps/api/place/details/json",
             "qs": {
-              'placeid': results[i].place_id,
+              'placeid': elem.place_id,
               'key': process.env.GOOGLE_MAPS_KEY
             },
             "method": "GET",
@@ -106,24 +105,23 @@ function handleMessage(sender_psid, received_message) {
               console.error("Cant get info" + err);
             }
             body = JSON.parse(body);
-            results[i].website = body.result.website;
-            filteredResults.push(results[i]);
+            results[index].website = body.result.website;
           });
-        }
+        });
         console.log("RESULTS: ");
-        console.log(filteredResults);
+        console.log(results);
         response = {
           attachment: {
             type: "template",
             payload: {
               template_type: "generic",
               elements: [{
-                title: filteredResults[0].name,
+                title: results[0].name,
                 image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
                   "maxwidth=400" +
-                  "&photoreference=" + filteredResults[0].photos[0].photo_reference +
+                  "&photoreference=" + results[0].photos[0].photo_reference +
                   "&key=" + process.env.GOOGLE_MAPS_KEY,
-                subtitle: filteredResults[0].vicinity,
+                subtitle: results[0].vicinity,
                 default_action: {
                   type: "web_url",
                   url: 'axd7832.github.io',
@@ -136,12 +134,12 @@ function handleMessage(sender_psid, received_message) {
                 }]
               },
               {
-                title: filteredResults[1].name,
+                title: results[1].name,
                 image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
                   "maxwidth=400" +
-                  "&photoreference=" + filteredResults[1].photos[0].photo_reference +
+                  "&photoreference=" + results[1].photos[0].photo_reference +
                   "&key=" + process.env.GOOGLE_MAPS_KEY,
-                subtitle: filteredResults[1].vicinity,
+                subtitle: results[1].vicinity,
                 default_action: {
                   type: "web_url",
                   url: 'axd7832.github.io',
@@ -154,12 +152,12 @@ function handleMessage(sender_psid, received_message) {
                 }]
               },
               {
-                title: filteredResults[0].name,
+                title: results[0].name,
                 image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
                   "maxwidth=400" +
-                  "&photoreference=" + filteredResults[2].photos[0].photo_reference +
+                  "&photoreference=" + results[2].photos[0].photo_reference +
                   "&key=" + process.env.GOOGLE_MAPS_KEY,
-                subtitle: filteredResults[2].vicinity,
+                subtitle: results[2].vicinity,
                 default_action: {
                   type: "web_url",
                   url: 'axd7832.github.io',
@@ -172,12 +170,12 @@ function handleMessage(sender_psid, received_message) {
                 }]
               },
               {
-                title: filteredResults[3].name,
+                title: results[3].name,
                 image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
                   "maxwidth=400" +
-                  "&photoreference=" + filteredResults[3].photos[0].photo_reference +
+                  "&photoreference=" + results[3].photos[0].photo_reference +
                   "&key=" + process.env.GOOGLE_MAPS_KEY,
-                subtitle: filteredResults[3].vicinity,
+                subtitle: results[3].vicinity,
                 default_action: {
                   type: "web_url",
                   url: 'axd7832.github.io',
@@ -190,12 +188,12 @@ function handleMessage(sender_psid, received_message) {
                 }]
               },
               {
-                title: filteredResults[4].name,
+                title: results[4].name,
                 image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
                   "maxwidth=400" +
-                  "&photoreference=" + filteredResults[4].photos[0].photo_reference +
+                  "&photoreference=" + results[4].photos[0].photo_reference +
                   "&key=" + process.env.GOOGLE_MAPS_KEY,
-                subtitle: filteredResults[4].vicinity,
+                subtitle: results[0].vicinity,
                 default_action: {
                   type: "web_url",
                   url: 'axd7832.github.io',
