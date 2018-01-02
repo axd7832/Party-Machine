@@ -118,7 +118,7 @@ function handleMessage(sender_psid, received_message) {
                 title: results[0].name,
                 image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
                   "maxwidth=400" +
-                  "&photoreference=" + elem.photos[0].photo_reference +
+                  "&photoreference=" + results[0].photos[0].photo_reference +
                   "&key=" + process.env.GOOGLE_MAPS_KEY,
                 subtitle: results[0].vicinity,
                 default_action: {
