@@ -37,7 +37,7 @@ app.post('/webhook', (req, res) => {
 });
 // Adds support for GET requests to our webhook
 app.get('/webhook', (req, res) => {
-  // Your verify token. Should be a random string.
+  // Random string in env
   let VERIFY_TOKEN = process.env.VERIFY_TOKEN;
   // Parse the query params
   let mode = req.query['hub.mode'];
@@ -60,9 +60,12 @@ app.get('/webhook', (req, res) => {
 function handleMessage(sender_psid, received_message) {
   let response;
   let results;
+  let filteredResults=[];
+  // Checking for location info
   if (received_message.attachments) {
     let lat = received_message.attachments[0].payload.coordinates.lat;
     let long = received_message.attachments[0].payload.coordinates.long;
+    // Call for bars near the coords
     request({
       "uri": "https://maps.googleapis.com/maps/api/place/nearbysearch/json",
       "qs": {
@@ -75,12 +78,13 @@ function handleMessage(sender_psid, received_message) {
       "method": "GET"
     }, (err, res, body) => {
       if (!err) {
-        console.log('message sent!')
+        console.log('Found Bars')
       } else {
-        console.error("Unable to send message:" + err);
+        console.error("Unable to find bars:" + err);
       }
       body = JSON.parse(body);
       results = body.results;
+      // If Results Were found
       if (results) {
         results = results.slice(0, 5);
         console.log(results);
@@ -97,28 +101,29 @@ function handleMessage(sender_psid, received_message) {
             "method": "GET",
           }, (err, res, body) => {
             if (!err) {
-              console.log('toggled typing')
+              console.log('Got place info');
             } else {
-              console.error("Unable to toggle typing" + err);
+              console.error("Cant get info" + err);
             }
             body = JSON.parse(body);
             results[i].website = body.result.website;
+            filteredResults.push(results[i]);
           });
         }
         console.log("RESULTS: ");
-        console.log(results);
+        console.log(filteredResults);
         response = {
           attachment: {
             type: "template",
             payload: {
               template_type: "generic",
               elements: [{
-                title: results[0].name,
+                title: filteredResults[0].name,
                 image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
                   "maxwidth=400" +
-                  "&photoreference=" + results[0].photos[0].photo_reference +
+                  "&photoreference=" + filteredResults[0].photos[0].photo_reference +
                   "&key=" + process.env.GOOGLE_MAPS_KEY,
-                subtitle: results[0].vicinity,
+                subtitle: filteredResults[0].vicinity,
                 default_action: {
                   type: "web_url",
                   url: 'axd7832.github.io',
@@ -131,12 +136,12 @@ function handleMessage(sender_psid, received_message) {
                 }]
               },
               {
-                title: results[1].name,
+                title: filteredResults[1].name,
                 image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
                   "maxwidth=400" +
-                  "&photoreference=" + results[1].photos[0].photo_reference +
+                  "&photoreference=" + filteredResults[1].photos[0].photo_reference +
                   "&key=" + process.env.GOOGLE_MAPS_KEY,
-                subtitle: results[1].vicinity,
+                subtitle: filteredResults[1].vicinity,
                 default_action: {
                   type: "web_url",
                   url: 'axd7832.github.io',
@@ -149,12 +154,12 @@ function handleMessage(sender_psid, received_message) {
                 }]
               },
               {
-                title: results[0].name,
+                title: filteredResults[0].name,
                 image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
                   "maxwidth=400" +
-                  "&photoreference=" + results[2].photos[0].photo_reference +
+                  "&photoreference=" + filteredResults[2].photos[0].photo_reference +
                   "&key=" + process.env.GOOGLE_MAPS_KEY,
-                subtitle: results[2].vicinity,
+                subtitle: filteredResults[2].vicinity,
                 default_action: {
                   type: "web_url",
                   url: 'axd7832.github.io',
@@ -167,12 +172,12 @@ function handleMessage(sender_psid, received_message) {
                 }]
               },
               {
-                title: results[3].name,
+                title: filteredResults[3].name,
                 image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
                   "maxwidth=400" +
-                  "&photoreference=" + results[3].photos[0].photo_reference +
+                  "&photoreference=" + filteredResults[3].photos[0].photo_reference +
                   "&key=" + process.env.GOOGLE_MAPS_KEY,
-                subtitle: results[3].vicinity,
+                subtitle: filteredResults[3].vicinity,
                 default_action: {
                   type: "web_url",
                   url: 'axd7832.github.io',
@@ -185,12 +190,12 @@ function handleMessage(sender_psid, received_message) {
                 }]
               },
               {
-                title: results[4].name,
+                title: filteredResults[4].name,
                 image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
                   "maxwidth=400" +
-                  "&photoreference=" + results[4].photos[0].photo_reference +
+                  "&photoreference=" + filteredResults[4].photos[0].photo_reference +
                   "&key=" + process.env.GOOGLE_MAPS_KEY,
-                subtitle: results[0].vicinity,
+                subtitle: filteredResults[4].vicinity,
                 default_action: {
                   type: "web_url",
                   url: 'axd7832.github.io',
