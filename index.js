@@ -82,7 +82,8 @@ function handleMessage(sender_psid, received_message) {
       body = JSON.parse(body);
       results = body.results;
       if (results) {
-        results = results.slice(0, 1);
+        results = results.slice(0, 5);
+        console.log(results);
         // console.log(results);
         let elements = [];
         results.forEach(function(elem) {
@@ -113,7 +114,6 @@ function handleMessage(sender_psid, received_message) {
               default_action: {
                 type: "web_url",
                 url: "https://peterssendreceiveapp.ngrok.io/view?item=103",
-                messenger_extensions: false,
                 webview_height_ratio: "tall"
               },
               buttons: [{
@@ -127,12 +127,12 @@ function handleMessage(sender_psid, received_message) {
               }]
             }
 
-            if (elem.photos != undefined) {
-              elemTemp.image_url = "https://maps.googleapis.com/maps/api/place/photo?" +
-                "maxwidth=400" +
-                "&photoreference=" + elem.photos[0].photo_reference +
-                "&key=" + process.env.GOOGLE_MAPS_KEY
-            }
+            // if (elem.photos != undefined) {
+            //   elemTemp.image_url = "https://maps.googleapis.com/maps/api/place/photo?" +
+            //     "maxwidth=400" +
+            //     "&photoreference=" + elem.photos[0].photo_reference +
+            //     "&key=" + process.env.GOOGLE_MAPS_KEY
+            // }
             elements.push(elemTemp);
           });
         });
