@@ -104,7 +104,7 @@ function handleMessage(sender_psid, received_message) {
             body = JSON.parse(body);
             results[i].website = body.result.website;
           });
-        });
+        }
         console.log("RESULTS: ");
         console.log(results);
         response = {
