@@ -86,12 +86,12 @@ function handleMessage(sender_psid, received_message) {
         console.log(results);
         // console.log(results);
         let elements = [];
-        results.forEach(function(elem) {
+        for(i=0; i<results.length; i++){
           //Get More info on place
           request({
             "uri": "https://maps.googleapis.com/maps/api/place/details/json",
             "qs": {
-              'placeid': elem.place_id,
+              'placeid': results[i].place_id,
               'key': process.env.GOOGLE_MAPS_KEY
             },
             "method": "GET",
@@ -102,7 +102,7 @@ function handleMessage(sender_psid, received_message) {
               console.error("Unable to toggle typing" + err);
             }
             body = JSON.parse(body);
-            elem.website = body.result.website;
+            results[i].website = body.result.website;
           });
         });
         console.log("RESULTS: ");
