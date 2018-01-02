@@ -102,14 +102,11 @@ function handleMessage(sender_psid, received_message) {
               console.error("Unable to toggle typing" + err);
             }
             body = JSON.parse(body);
-            console.log(body.result.website);
             elem.website = body.result.website;
-            //console.log("PLACE SEARCH");
-            //console.log(body.result);
-            //console.log(elem);
           });
         });
-
+        console.log("RESULTS: ");
+        console.log(results);
         response = {
           attachment: {
             type: "template",
