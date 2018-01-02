@@ -89,7 +89,7 @@ function handleMessage(sender_psid, received_message) {
         console.log(results);
         // console.log(results);
         let elements = [];
-        results.forEach(elem,index){
+        results.forEach(function (elem,index){
           //Get More info on place
           request({
             "uri": "https://maps.googleapis.com/maps/api/place/details/json",
