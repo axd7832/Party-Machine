@@ -121,12 +121,12 @@ function handleMessage(sender_psid, received_message) {
                 subtitle: results[0].vicinity,
                 default_action: {
                   type: "web_url",
-                  url: results[0].website,
+                  url: 'axd7832.github.io',
                   webview_height_ratio: "tall"
                 },
                 buttons: [{
                   type: "web_url",
-                  url: results[0].website,
+                  url: 'axd7832.github.io',
                   title: "View Website"
                 }]
               }]
