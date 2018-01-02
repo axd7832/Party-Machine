@@ -88,7 +88,6 @@ function handleMessage(sender_psid, received_message) {
         let elements = [];
         results.forEach(function(elem) {
           //Get More info on place
-          let tempRes;
           request({
             "uri": "https://maps.googleapis.com/maps/api/place/details/json",
             "qs": {
@@ -103,37 +102,10 @@ function handleMessage(sender_psid, received_message) {
               console.error("Unable to toggle typing" + err);
             }
             body = JSON.parse(body);
+            elem.website = body.result.website;
             //console.log("PLACE SEARCH");
             //console.log(body.result);
-            tempRes = body.result;
             //console.log(elem);
-            let elemTemp = {
-              title: "Welcome to Peter\'s Hats",
-              image_url: "https://petersfancybrownhats.com/company_image.png",
-              subtitle: "We'\''ve got the right hat for everyone.",
-              default_action: {
-                type: "web_url",
-                url: "https://peterssendreceiveapp.ngrok.io/view?item=103",
-                webview_height_ratio: "tall"
-              },
-              buttons: [{
-                type: "web_url",
-                url: "https://petersfancybrownhats.com",
-                title: "View Website"
-              }, {
-                type: "postback",
-                title: "Start Chatting",
-                payload: "DEVELOPER_DEFINED_PAYLOAD"
-              }]
-            }
-
-            // if (elem.photos != undefined) {
-            //   elemTemp.image_url = "https://maps.googleapis.com/maps/api/place/photo?" +
-            //     "maxwidth=400" +
-            //     "&photoreference=" + elem.photos[0].photo_reference +
-            //     "&key=" + process.env.GOOGLE_MAPS_KEY
-            // }
-            elements.push(elemTemp);
           });
         });
 
@@ -142,7 +114,24 @@ function handleMessage(sender_psid, received_message) {
             type: "template",
             payload: {
               template_type: "generic",
-              elements: elements
+              elements: [{
+                title: results[0].name,
+                image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
+                  "maxwidth=400" +
+                  "&photoreference=" + elem.photos[0].photo_reference +
+                  "&key=" + process.env.GOOGLE_MAPS_KEY,
+                subtitle: results[0].vicinity,
+                default_action: {
+                  type: "web_url",
+                  url: results[0].website,
+                  webview_height_ratio: "tall"
+                },
+                buttons: [{
+                  type: "web_url",
+                  url: results[0].website,
+                  title: "View Website"
+                }]
+              }]
             }
           }
         }
