@@ -75,8 +75,8 @@ function handleMessage(sender_psid, received_message) {
         'key': process.env.GOOGLE_MAPS_KEY
       },
       "method": "GET",
-      "json":true
-    }).then(function(body){
+      "json": true
+    }).then(function(body) {
       results = body.results;
       console.log("RESULTS INSIDE: ");
       console.log(results);
@@ -212,11 +212,12 @@ function handleMessage(sender_psid, received_message) {
         // console.log("called send api");
         // console.log(response);
         // callSendAPI(sender_psid, response);
+      }
     });
     console.log("RESULTS OUTSIDE: ");
     console.log(results);
-    response={
-      "text":"I work"
+    response = {
+      "text": "I work"
     }
     callSendAPI(sender_psid, response);
 
