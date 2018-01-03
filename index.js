@@ -56,6 +56,19 @@ app.get('/webhook', (req, res) => {
     }
   }
 });
+
+function getPlaceInfo = function(placeId){
+  return request({
+    "uri": "https://maps.googleapis.com/maps/api/place/details/json",
+    "qs": {
+      'placeid': placeId,
+      'key': process.env.GOOGLE_MAPS_KEY
+    },
+    "method": "GET",
+    "json":true
+  });
+}
+
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
   let response;
@@ -86,30 +99,18 @@ function handleMessage(sender_psid, received_message) {
       // If Results Were found
       if (results) {
         results = results.slice(0, 5);
-        console.log(results);
+        // console.log(results);
         // console.log(results);
         let elements = [];
         results.forEach(function (elem,index){
           //Get More info on place
-          request({
-            "uri": "https://maps.googleapis.com/maps/api/place/details/json",
-            "qs": {
-              'placeid': elem.place_id,
-              'key': process.env.GOOGLE_MAPS_KEY
-            },
-            "method": "GET",
-          }, (err, res, body) => {
-            if (!err) {
-              console.log('Got place info');
-            } else {
-              console.error("Cant get info" + err);
-            }
-            body = JSON.parse(body);
-            results[index].website = body.result.website;
-          });
+          return getPlaceInfo(elem.place_id).then(function(body){
+            console.log("BODY RESULT");
+            console.log(body.result);
+          })
         });
-        console.log("RESULTS: ");
-        console.log(results);
+        // console.log("RESULTS: ");
+        // console.log(results);
         response = {
           attachment: {
             type: "template",
@@ -208,9 +209,9 @@ function handleMessage(sender_psid, received_message) {
             }
           }
         }
-        console.log("called send api");
-        console.log(response);
-        console.log(response.attachment.payload.elements);
+        // console.log("called send api");
+        // console.log(response);
+        // console.log(response.attachment.payload.elements);
         callSendAPI(sender_psid, response);
       }
     });
