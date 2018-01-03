@@ -110,7 +110,7 @@ function handleMessage(sender_psid, received_message) {
             body = JSON.parse(body);
             callbackClosure(body, function() {
               results[index].website = body.result.website;
-              console.log('\n\n\nRESULT AFTER WEBSITE CHANGE \n\n\n';
+              console.log('\n\n\nRESULT AFTER WEBSITE CHANGE \n\n\n');
               console.log(results[index]);
             });
 
