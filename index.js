@@ -56,8 +56,9 @@ app.get('/webhook', (req, res) => {
     }
   }
 });
-function getBars (lat,long) {
-  return new Promise(function(resolve,reject){
+
+function getBars(lat, long) {
+  return new Promise(function(resolve, reject) {
     request({
       "uri": "https://maps.googleapis.com/maps/api/place/nearbysearch/json",
       "qs": {
@@ -70,11 +71,30 @@ function getBars (lat,long) {
       "method": "GET",
       "json": true
     }, (err, res, body) => {
-      if (err){
+      if (err) {
         reject(err);
       }
       resolve(body.results);
       // If Results Were found
+    });
+  })
+}
+
+function getBarInfo(place_id) {
+  return new Promise(function(resolve, reject) {
+    request({
+      "uri": "https://maps.googleapis.com/maps/api/place/details/json",
+      "qs": {
+        'placeid': place_id,
+        'key': process.env.GOOGLE_MAPS_KEY
+      },
+      "method": "GET",
+      "json":true
+    }, (err, res, body) => {
+      if (err){
+        reject(err);
+      }
+        resolve(body.result.website);
     });
   })
 }
@@ -87,16 +107,26 @@ function handleMessage(sender_psid, received_message) {
     let lat = received_message.attachments[0].payload.coordinates.lat;
     let long = received_message.attachments[0].payload.coordinates.long;
     // Call for bars near the coords
-    getBars(lat,long).then(function(info){
-      results = info;
+    getBars(lat, long).then(function(info) {
+      results = info.slice(0, 5);
+      results.forEach(function(elem){
+        getBarInfo(elem.place_id).then(function(website){
+          console.log("RESULTS IN THEN");
+          console.log(results);
+          console.log(website);
+        });
+        console.log("RESULTS IN FOR EACH");
+        console.log(results);
+      })
+      console.log("RESULTS AFTER CALL");
+      console.log(results);
     });
-    console.log(results);
 
 
-    response={
-      "text":"test"
+    response = {
+      "text": "test"
     }
-    callSendAPI(sender_psid,response);
+    callSendAPI(sender_psid, response);
     // if (results) {
     //   results = results.slice(0, 5);
     //   response = {
