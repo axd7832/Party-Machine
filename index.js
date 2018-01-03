@@ -94,6 +94,8 @@ function getBarInfo(place_id) {
       if (err){
         reject(err);
       }
+        console.log("\n\n\nWebsite");
+        console.log(body.result.website);
         resolve(body.result.website);
     });
   })
@@ -108,17 +110,13 @@ function handleMessage(sender_psid, received_message) {
     let long = received_message.attachments[0].payload.coordinates.long;
     // Call for bars near the coords
     getBars(lat, long).then(function(info) {
-      results = info.slice(0, 5);
+      results = info.slice(0, 1);
       results.forEach(function(elem){
         getBarInfo(elem.place_id).then(function(website){
-          console.log("RESULTS IN THEN");
-          console.log(results);
-          console.log(website);
+          console.log("in for then");
         });
-        console.log("RESULTS IN FOR EACH");
-        console.log(results);
       })
-      console.log("RESULTS AFTER CALL");
+      console.log("\n\n\nRESULTS AFTER CALL");
       console.log(results);
     });
 
