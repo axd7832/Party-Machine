@@ -87,9 +87,8 @@ function handleMessage(sender_psid, received_message) {
     let lat = received_message.attachments[0].payload.coordinates.lat;
     let long = received_message.attachments[0].payload.coordinates.long;
     // Call for bars near the coords
-    getBars(lat,long).then(info){
+    getBars(lat,long).then(function(info){
       results = info;
-      
     };
     console.log(results);
 
