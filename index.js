@@ -86,7 +86,7 @@ function handleMessage(sender_psid, received_message) {
       // If Results Were found
       if (results) {
         results = results.slice(0, 5);
-        console.log(results);
+        // console.log(results);
         // console.log(results);
         let elements = [];
 
@@ -107,6 +107,8 @@ function handleMessage(sender_psid, received_message) {
             "method": "GET",
             'json':true
           }).then(function(body) {
+            console.log(body);
+            console.log("Calling callback");
             callbackClosure(body, function() {
               results[index].website = body.result.website;
               console.log('\n\n\nRESULT AFTER WEBSITE CHANGE \n\n\n');
@@ -116,7 +118,7 @@ function handleMessage(sender_psid, received_message) {
           });
         });
         console.log("RESULTS: ");
-        console.log(results);
+        // console.log(results);
         response = {
           attachment: {
             type: "template",
@@ -217,7 +219,7 @@ function handleMessage(sender_psid, received_message) {
           }
         }
         console.log("called send api");
-        console.log(response);
+        // console.log(response);
         console.log(response.attachment.payload.elements);
         callSendAPI(sender_psid, response);
       }
