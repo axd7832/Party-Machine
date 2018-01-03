@@ -57,7 +57,7 @@ app.get('/webhook', (req, res) => {
   }
 });
 function getBars () {
-  new Promise(function(resolve,reject){
+  return new Promise(function(resolve,reject){
     request({
       "uri": "https://maps.googleapis.com/maps/api/place/nearbysearch/json",
       "qs": {
