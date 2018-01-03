@@ -106,8 +106,7 @@ function handleMessage(sender_psid, received_message) {
             },
             "method": "GET",
             'json':true
-          }).then(function() {
-            body = JSON.parse(body);
+          }).then(function(body) {
             callbackClosure(body, function() {
               results[index].website = body.result.website;
               console.log('\n\n\nRESULT AFTER WEBSITE CHANGE \n\n\n');
