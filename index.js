@@ -56,19 +56,6 @@ app.get('/webhook', (req, res) => {
     }
   }
 });
-
-function getPlaceInfo (placeId){
-  return request({
-    "uri": "https://maps.googleapis.com/maps/api/place/details/json",
-    "qs": {
-      'placeid': placeId,
-      'key': process.env.GOOGLE_MAPS_KEY
-    },
-    "method": "GET",
-    "json":true
-  });
-}
-
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
   let response;
@@ -99,18 +86,24 @@ function handleMessage(sender_psid, received_message) {
       // If Results Were found
       if (results) {
         results = results.slice(0, 5);
-        // console.log(results);
+        console.log(results);
         // console.log(results);
         let elements = [];
         results.forEach(function (elem,index){
           //Get More info on place
-          return getPlaceInfo(elem.place_id).then(function(body){
-            console.log("BODY RESULT");
-            console.log(body.result);
-          })
+          var a = request({
+            "uri": "https://maps.googleapis.com/maps/api/place/details/json",
+            "qs": {
+              'placeid': elem.place_id,
+              'key': process.env.GOOGLE_MAPS_KEY
+            },
+            "method": "GET",
+            "json": true
+          });
+          console.log(a);
         });
-        // console.log("RESULTS: ");
-        // console.log(results);
+        console.log("RESULTS: ");
+        console.log(results);
         response = {
           attachment: {
             type: "template",
@@ -209,9 +202,9 @@ function handleMessage(sender_psid, received_message) {
             }
           }
         }
-        // console.log("called send api");
-        // console.log(response);
-        // console.log(response.attachment.payload.elements);
+        console.log("called send api");
+        console.log(response);
+        console.log(response.attachment.payload.elements);
         callSendAPI(sender_psid, response);
       }
     });
