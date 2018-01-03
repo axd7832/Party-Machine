@@ -7,6 +7,7 @@ const
   request = require('request-promise'),
   app = express().use(bodyParser.json()); // creates express http server
 let goingOutTn = false;
+var results;
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening on port 1337'));
 // Creates the endpoint for our webhook
@@ -59,7 +60,7 @@ app.get('/webhook', (req, res) => {
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
   let response;
-  var results;
+
   // Checking for location info
   if (received_message.attachments) {
     let lat = received_message.attachments[0].payload.coordinates.lat;
