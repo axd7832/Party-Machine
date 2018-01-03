@@ -56,7 +56,7 @@ app.get('/webhook', (req, res) => {
     }
   }
 });
-function getBars () {
+function getBars (lat,long) {
   return new Promise(function(resolve,reject){
     request({
       "uri": "https://maps.googleapis.com/maps/api/place/nearbysearch/json",
@@ -71,7 +71,7 @@ function getBars () {
       "json": true
     }, (err, res, body) => {
       if (err){
-        console.error("Unable to find bars:" + err);
+        reject(err);
       }
       resolve(results = body.results);
       // If Results Were found
@@ -87,7 +87,7 @@ function handleMessage(sender_psid, received_message) {
     let lat = received_message.attachments[0].payload.coordinates.lat;
     let long = received_message.attachments[0].payload.coordinates.long;
     // Call for bars near the coords
-    getBars().then(function(body){
+    getBars(lat,long).then(function(body){
       console.log("GET BARS RESULTS");
       console.log(body);
     });
