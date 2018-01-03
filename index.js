@@ -59,7 +59,7 @@ app.get('/webhook', (req, res) => {
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
   let response;
-  let results;
+  var results;
   // Checking for location info
   if (received_message.attachments) {
     let lat = received_message.attachments[0].payload.coordinates.lat;
@@ -74,50 +74,41 @@ function handleMessage(sender_psid, received_message) {
         'rankby': 'distance',
         'key': process.env.GOOGLE_MAPS_KEY
       },
-      "method": "GET"
-    }, (err, res, body) => {
-      if (!err) {
-        console.log('Found Bars')
-      } else {
-        console.error("Unable to find bars:" + err);
-      }
-      body = JSON.parse(body);
+      "method": "GET",
+      "json":true
+    }).then(function(body){
       results = body.results;
+      console.log("RESULTS INSIDE: ");
+      console.log(results);
       // If Results Were found
       if (results) {
         results = results.slice(0, 5);
         // console.log(results);
         // console.log(results);
         let elements = [];
-
-        function callbackClosure(body, callback) {
-          return function() {
-            return callback(i);
-          }
-        }
-
-        results.forEach(function(elem, index) {
-          //Get More info on place
-          request({
-            "uri": "https://maps.googleapis.com/maps/api/place/details/json",
-            "qs": {
-              'placeid': elem.place_id,
-              'key': process.env.GOOGLE_MAPS_KEY
-            },
-            "method": "GET",
-            'json':true
-          }).then(function(body) {
-            console.log(body);
-            console.log("Calling callback");
-            callbackClosure(body, function() {
-              results[index].website = body.result.website;
-              console.log('\n\n\nRESULT AFTER WEBSITE CHANGE \n\n\n');
-              console.log(results[index]);
-            });
-
-          });
-        });
-        console.log("RESULTS: ");
+        // Commented Out
+        // results.forEach(function(elem, index) {
+        //   //Get More info on place
+        //   request({
+        //     "uri": "https://maps.googleapis.com/maps/api/place/details/json",
+        //     "qs": {
+        //       'placeid': elem.place_id,
+        //       'key': process.env.GOOGLE_MAPS_KEY
+        //     },
+        //     "method": "GET",
+        //     'json':true
+        //   }).then(function(body) {
+        //     console.log(body);
+        //     console.log("Calling callback");
+        //     callbackClosure(body, function() {
+        //       results[index].website = body.result.website;
+        //       console.log('\n\n\nRESULT AFTER WEBSITE CHANGE \n\n\n');
+        //       console.log(results[index]);
+        //     });
+        //
+        //   });
+        // });
+        // console.log("RESULTS: ");
         // console.log(results);
         response = {
           attachment: {
@@ -218,12 +209,17 @@ function handleMessage(sender_psid, received_message) {
             }
           }
         }
-        console.log("called send api");
+        // console.log("called send api");
         // console.log(response);
-        console.log(response.attachment.payload.elements);
-        callSendAPI(sender_psid, response);
-      }
+        // callSendAPI(sender_psid, response);
     });
+    console.log("RESULTS OUTSIDE: ");
+    console.log(results);
+    response={
+      "text":"I work"
+    }
+    callSendAPI(sender_psid, response);
+
   }
   // Checks if the message contains text
   if (received_message.text) {
