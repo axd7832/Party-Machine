@@ -90,7 +90,7 @@ function handleMessage(sender_psid, received_message) {
     getBars(lat,long).then(function(results){
       results = results.slice(0,5);
       console.log(results);
-      
+
     });
 
 
@@ -337,7 +337,7 @@ function showTyping(sender_psid, bool) {
 
 function getAnswer() {
   let randomNum = (Math.random() * 10);
-  if (randomNum <= 6) {
+  if (randomNum >= 6) {
     goingOutTn = true;
   } else {
     goingOutTn = false
