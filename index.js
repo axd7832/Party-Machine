@@ -57,7 +57,7 @@ app.get('/webhook', (req, res) => {
   }
 });
 
-function getPlaceInfo = function(placeId){
+getPlaceInfo = function(placeId){
   return request({
     "uri": "https://maps.googleapis.com/maps/api/place/details/json",
     "qs": {
