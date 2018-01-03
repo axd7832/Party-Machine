@@ -4,7 +4,7 @@
 const
   express = require('express'),
   bodyParser = require('body-parser'),
-  request = require('request'),
+  request = require('request-promise'),
   app = express().use(bodyParser.json()); // creates express http server
 let goingOutTn = false;
 // Sets server port and logs message on success
