@@ -73,7 +73,7 @@ function getBars (lat,long) {
       if (err){
         reject(err);
       }
-      resolve(results = body.results);
+      resolve(body.results);
       // If Results Were found
     });
   })
