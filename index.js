@@ -89,7 +89,7 @@ function handleMessage(sender_psid, received_message) {
     // Call for bars near the coords
     getBars(lat,long).then(function(info){
       results = info;
-    };
+    });
     console.log(results);
 
 
