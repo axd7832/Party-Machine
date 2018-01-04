@@ -155,37 +155,12 @@ function handleMessage(sender_psid, received_message) {
   }
   // Checks if the message contains text
   if (received_message.text) {
-    console.log(received_message.text);
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
 
     switch (received_message.text) {
       case "Should I?":
-        getAnswer();
-
-        if (goingOutTn === true) {
-          response = {
-            "attachment": {
-              "type": "template",
-              "payload": {
-                "template_type": "generic",
-                "elements": [{
-                  "title": "Yes!",
-                  "subtitle": "Share your location to find events near you."
-                }]
-              }
-            },
-            "quick_replies": [{
-              "content_type": "location"
-            }]
-
-          }
-        } else {
-          //TODO creative responses for no
-          response = {
-            "text": "No! Stay in an catch up on Black Mirror Season 4"
-          }
-        }
+        response = getAnswer();
         break;
     }
 
@@ -218,10 +193,15 @@ function handlePostback(sender_psid, received_postback) {
           "title": "Should I?",
           "payload": "Should I?"
         }]
-
       }
       break;
-
+    case "Should I?":
+      response = getAnswer();
+      break;
+    default:
+      response = {
+        "text" : "I'm not quite sure what you mean"
+      }
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
@@ -291,8 +271,24 @@ function showTyping(sender_psid, bool) {
 function getAnswer() {
   let randomNum = (Math.random() * 10);
   if (randomNum >= 6) {
-    goingOutTn = true;
+    return {
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "generic",
+          "elements": [{
+            "title": "Yes!",
+            "subtitle": "Share your location to find events near you."
+          }]
+        }
+      },
+      "quick_replies": [{
+        "content_type": "location"
+      }]
+    }
   } else {
-    goingOutTn = false
+    return {
+      "text": "No! Stay in an catch up on Black Mirror Season 4"
+    }
   }
 }
