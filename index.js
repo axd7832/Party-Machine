@@ -209,20 +209,46 @@ function handleMessage(sender_psid, received_message) {
       //   }
       // }
       let counter = 0;
-      for(let i=0; i<results.length; i++){
+      for (let i = 0; i < results.length; i++) {
         getBarInfo(results[i].place_id).then(function(website) {
           counter++
           console.log(counter);
           console.log(website);
           results.website = website;
-          if(results.website){
-            results.website = "website.notfound.com"
-          }
+          // if(results.website){
+          //   results.website = "website.notfound.com"
+          // }
           if (counter === results.length) {
             console.log(results);
-            response={
-              "text":"hello"
+            response = {
+              attachment: {
+                type: "template",
+                payload: {
+                  template_type: "generic",
+                  elements: [{
+                    title: results[0].name,
+                    image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
+                      "maxwidth=400" +
+                      "&photoreference=" + results[0].photos[0].photo_reference +
+                      "&key=" + process.env.GOOGLE_MAPS_KEY,
+                    subtitle: results[0].vicinity,
+                    default_action: {
+                      type: "web_url",
+                      url: results[0].website,
+                      webview_height_ratio: "tall"
+                    },
+                    buttons: [{
+                      type: "web_url",
+                      url: results[0].website,
+                      title: "View Website"
+                    }]
+                  }]
+                }
+              }
             }
+            callSendAPI(sender_psid,{
+              "text":"Here is the closest bar to you:"
+            })
             callSendAPI(sender_psid, response);
           }
         });
