@@ -219,7 +219,7 @@ function handleMessage(sender_psid, received_message) {
           //   results.website = "website.notfound.com"
           // }
           if (counter === results.length) {
-            console.log(results);
+            console.log(results[0]);
             response = {
               attachment: {
                 type: "template",
