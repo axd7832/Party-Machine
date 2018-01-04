@@ -115,6 +115,9 @@ function handleMessage(sender_psid, received_message) {
           console.log(counter);
           counter++
           results.website = website;
+          if(results.website == undefined){
+            results.website = "website.notfound.com"
+          }
           if (counter === results.length) {
             console.log(results);
             response = {
