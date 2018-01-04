@@ -216,7 +216,9 @@ function handleMessage(sender_psid, received_message) {
           results.attachment.payload.elements[index].default_action.url = website;
           if(counter === results.length) {
             console.log(results);
-            
+            response={
+              "text":"hi"
+            }
             callSendAPI(sender_psid, response);
           }
         })
