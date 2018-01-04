@@ -81,7 +81,7 @@ function getBars(lat, long) {
 }
 
 function getBarInfo(place_id) {
-  return new Promise(function(resolve, reject) {
+  // return new Promise(function(resolve, reject) {
     request({
       "uri": "https://maps.googleapis.com/maps/api/place/details/json",
       "qs": {
@@ -92,13 +92,14 @@ function getBarInfo(place_id) {
       "json":true
     }, (err, res, body) => {
       if (err){
-        reject(err);
+        // reject(err);
       }
         console.log("\n\n\nWebsite");
         console.log(body.result.website);
-        resolve(body.result.website);
+        // resolve(body.result.website);
+        return body.result.website;
     });
-  })
+  // })
 }
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
