@@ -107,106 +107,16 @@ function handleMessage(sender_psid, received_message) {
     let long = received_message.attachments[0].payload.coordinates.long;
     // Call for bars near the coords
     getBars(lat, long).then(function(info) {
-      let results = info.slice(0, 1);
-      // response = {
-      //   attachment: {
-      //     type: "template",
-      //     payload: {
-      //       template_type: "generic",
-      //       elements: [{
-      //           title: results[0].name,
-      //           image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
-      //             "maxwidth=400" +
-      //             "&photoreference=" + results[0].photos[0].photo_reference +
-      //             "&key=" + process.env.GOOGLE_MAPS_KEY,
-      //           subtitle: results[0].vicinity,
-      //           default_action: {
-      //             type: "web_url",
-      //             url: results[0].website,
-      //             webview_height_ratio: "tall"
-      //           },
-      //           buttons: [{
-      //             type: "web_url",
-      //             url: results[0].website,
-      //             title: "View Website"
-      //           }]
-      //         },
-      //         {
-      //           title: results[1].name,
-      //           image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
-      //             "maxwidth=400" +
-      //             "&photoreference=" + results[1].photos[0].photo_reference +
-      //             "&key=" + process.env.GOOGLE_MAPS_KEY,
-      //           subtitle: results[1].vicinity,
-      //           default_action: {
-      //             type: "web_url",
-      //             url: results[1].website,
-      //             webview_height_ratio: "tall"
-      //           },
-      //           buttons: [{
-      //             type: "web_url",
-      //             url: results[1].website,
-      //             title: "View Website"
-      //           }]
-      //         },
-      //         {
-      //           title: results[0].name,
-      //           image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
-      //             "maxwidth=400" +
-      //             "&photoreference=" + results[2].photos[0].photo_reference +
-      //             "&key=" + process.env.GOOGLE_MAPS_KEY,
-      //           subtitle: results[2].vicinity,
-      //           default_action: {
-      //             type: "web_url",
-      //             url: results[2].website,
-      //             webview_height_ratio: "tall"
-      //           },
-      //           buttons: [{
-      //             type: "web_url",
-      //             url: results[2].website,
-      //             title: "View Website"
-      //           }]
-      //         },
-      //         {
-      //           title: results[3].name,
-      //           image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
-      //             "maxwidth=400" +
-      //             "&photoreference=" + results[3].photos[0].photo_reference +
-      //             "&key=" + process.env.GOOGLE_MAPS_KEY,
-      //           subtitle: results[3].vicinity,
-      //           default_action: {
-      //             type: "web_url",
-      //             url: results[3].website,
-      //             webview_height_ratio: "tall"
-      //           },
-      //           buttons: [{
-      //             type: "web_url",
-      //             url: results[3].website,
-      //             title: "View Website"
-      //           }]
-      //         },
-      //         {
-      //           title: results[4].name,
-      //           image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
-      //             "maxwidth=400" +
-      //             "&photoreference=" + results[4].photos[0].photo_reference +
-      //             "&key=" + process.env.GOOGLE_MAPS_KEY,
-      //           subtitle: results[0].vicinity,
-      //           default_action: {
-      //             type: "web_url",
-      //             url: results[4].website,
-      //             webview_height_ratio: "tall"
-      //           },
-      //           buttons: [{
-      //             type: "web_url",
-      //             url: results[4].website,
-      //             title: "View Website"
-      //           }]
-      //         }
-      //       ]
-      //     }
-      //   }
-      // }
+      let results = info.slice(0, 5);
+      let response = {
+        attachment: {
+          type: "template",
+          payload: {
+            template_type: "generic",
+            elements: []
+          }
+        }
+      }
       let counter = 0;
       for (let i = 0; i < results.length; i++) {
         getBarInfo(results[i].place_id).then(function(website) {
@@ -214,37 +124,30 @@ function handleMessage(sender_psid, received_message) {
           console.log(counter);
           console.log(website);
           results[i].website = website;
-          // if(results.website){
-          //   results.website = "website.notfound.com"
-          // }
+          var element = {
+            title: results[i].name,
+            image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
+              "maxwidth=400" +
+              "&photoreference=" + results[i].photos[0].photo_reference +
+              "&key=" + process.env.GOOGLE_MAPS_KEY,
+            subtitle: results[i].vicinity,
+            default_action: {
+              type: "web_url",
+              url: results[i].website,
+              webview_height_ratio: "tall"
+            },
+            buttons: [{
+              type: "web_url",
+              url: results[i].website,
+              title: "View Website"
+            }]
+          }
+
+
+          response.attachment.payload.elements.push(element);
           if (counter === results.length) {
             console.log(results[0]);
-            response = {
-              attachment: {
-                type: "template",
-                payload: {
-                  template_type: "generic",
-                  elements: [{
-                    title: results[0].name,
-                    image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
-                      "maxwidth=400" +
-                      "&photoreference=" + results[0].photos[0].photo_reference +
-                      "&key=" + process.env.GOOGLE_MAPS_KEY,
-                    subtitle: results[0].vicinity,
-                    default_action: {
-                      type: "web_url",
-                      url: results[0].website,
-                      webview_height_ratio: "tall"
-                    },
-                    buttons: [{
-                      type: "web_url",
-                      url: results[0].website,
-                      title: "View Website"
-                    }]
-                  }]
-                }
-              }
-            }
+
             callSendAPI(sender_psid,{
               "text":"Here is the closest bar to you:"
             })
