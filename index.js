@@ -157,13 +157,11 @@ function handleMessage(sender_psid, received_message) {
   if (received_message.text) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
-
     switch (received_message.text) {
       case "Should I?":
         response = getAnswer();
         break;
     }
-
     // Send the response message
     callSendAPI(sender_psid, response);
   }
@@ -200,7 +198,7 @@ function handlePostback(sender_psid, received_postback) {
       break;
     default:
       response = {
-        "text" : "I'm not quite sure what you mean"
+        "text": "I'm not quite sure what you mean"
       }
   }
   // Send the message to acknowledge the postback
