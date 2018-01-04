@@ -101,7 +101,7 @@ function getBarInfo(place_id) {
   })
 }
 // Handles messages events
-async function handleMessage(sender_psid, received_message) {
+function handleMessage(sender_psid, received_message) {
   let response;
   let results;
   // Checking for location info
@@ -111,18 +111,23 @@ async function handleMessage(sender_psid, received_message) {
     // Call for bars near the coords
     getBars(lat, long).then(function(info) {
       results = info.slice(0, 1);
+      let counter =0;
       results.forEach(function(elem){
-        let website = await getBarInfo(elem.place_id);
-        console.log("inside for ");
-        console.log(website);
+        getBarInfo(elem.place_id).then(function(website){
+          console.log(website);
+          console.log(counter);
+          if(counter === results.length){
+            response = {
+              "text": "test"
+            }
+            callSendAPI(sender_psid, response);
+          }
+        })
       });
     });
 
 
-    response = {
-      "text": "test"
-    }
-    callSendAPI(sender_psid, response);
+
     // if (results) {
     //   results = results.slice(0, 5);
     //   response = {
