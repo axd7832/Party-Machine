@@ -113,9 +113,8 @@ function handleMessage(sender_psid, received_message) {
     getBars(lat, long).then(function(info) {
       results = info.slice(0, 1);
       results.forEach(function(elem){
-        getBarInfo(elem.place_id).then(function(website){
-          console.log("in for then");
-        });
+        console.log(elem);
+        console.log(getBarInfo(elem.place_id));
       })
       console.log("\n\n\nRESULTS AFTER CALL");
       console.log(results);
