@@ -1,5 +1,4 @@
 'use strict';
-
 // Imports dependencies and set up http server
 const
   express = require('express'),
@@ -56,7 +55,8 @@ app.get('/webhook', (req, res) => {
     }
   }
 });
-
+// Function to get bars from google maps -> place api
+// Finds bars that are open, sorted by location nearest
 function getBars(lat, long) {
   return new Promise(function(resolve, reject) {
     request({
@@ -79,7 +79,8 @@ function getBars(lat, long) {
     });
   })
 }
-
+// Gets more information on places
+// Used to get the website of the place
 function getBarInfo(place_id) {
   return new Promise(function(resolve, reject) {
     request({
@@ -100,7 +101,6 @@ function getBarInfo(place_id) {
 }
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
-  let response;
   // Checking for location info
   if (received_message.attachments) {
     let lat = received_message.attachments[0].payload.coordinates.lat;
@@ -121,9 +121,8 @@ function handleMessage(sender_psid, received_message) {
       for (let i = 0; i < results.length; i++) {
         getBarInfo(results[i].place_id).then(function(website) {
           counter++
-          console.log(counter);
-          console.log(website);
           results[i].website = website;
+          // Element to push to elements array for the response
           var element = {
             title: results[i].name,
             image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
@@ -142,14 +141,11 @@ function handleMessage(sender_psid, received_message) {
               title: "View Website"
             }]
           }
-
-
           response.attachment.payload.elements.push(element);
+          //If the last result, send the payload
           if (counter === results.length) {
-            console.log(results[0]);
-
-            callSendAPI(sender_psid,{
-              "text":"Here is the closest bar to you:"
+            callSendAPI(sender_psid, {
+              "text": "Here are the closest bars to you:"
             })
             callSendAPI(sender_psid, response);
           }
@@ -159,12 +155,14 @@ function handleMessage(sender_psid, received_message) {
   }
   // Checks if the message contains text
   if (received_message.text) {
+    console.log(received_message.text);
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
-    getAnswer();
 
     switch (received_message.text) {
       case "Should I?":
+        getAnswer();
+
         if (goingOutTn === true) {
           response = {
             "attachment": {
@@ -228,7 +226,6 @@ function handlePostback(sender_psid, received_postback) {
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
 }
-
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
   showTyping(sender_psid, true);
