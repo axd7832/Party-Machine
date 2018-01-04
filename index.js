@@ -89,14 +89,12 @@ function getBarInfo(place_id) {
         'key': process.env.GOOGLE_MAPS_KEY
       },
       "method": "GET",
-      "json":true
+      "json": true
     }, (err, res, body) => {
-      if (err){
+      if (err) {
         reject(err);
       }
-        console.log("\n\n\nWebsite");
-        console.log(body.result.website);
-        resolve(body.result.website);
+      resolve(body.result.website);
     });
   })
 }
@@ -111,15 +109,115 @@ function handleMessage(sender_psid, received_message) {
     // Call for bars near the coords
     getBars(lat, long).then(function(info) {
       results = info.slice(0, 1);
-      let counter =0;
-      results.forEach(function(elem){
-        getBarInfo(elem.place_id).then(function(website){
-          console.log(website);
+      let counter = 0;
+      // let response = {
+        attachment: {
+          type: "template",
+          payload: {
+            template_type: "generic",
+            elements: [{
+                title: results[0].name,
+                image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
+                  "maxwidth=400" +
+                  "&photoreference=" + results[0].photos[0].photo_reference +
+                  "&key=" + process.env.GOOGLE_MAPS_KEY,
+                subtitle: results[0].vicinity,
+                default_action: {
+                  type: "web_url",
+                  url: 'axd7832.github.io',
+                  webview_height_ratio: "tall"
+                },
+                buttons: [{
+                  type: "web_url",
+                  url: 'axd7832.github.io',
+                  title: "View Website"
+                }]
+              },
+              {
+                title: results[1].name,
+                image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
+                  "maxwidth=400" +
+                  "&photoreference=" + results[1].photos[0].photo_reference +
+                  "&key=" + process.env.GOOGLE_MAPS_KEY,
+                subtitle: results[1].vicinity,
+                default_action: {
+                  type: "web_url",
+                  url: 'axd7832.github.io',
+                  webview_height_ratio: "tall"
+                },
+                buttons: [{
+                  type: "web_url",
+                  url: 'axd7832.github.io',
+                  title: "View Website"
+                }]
+              },
+              {
+                title: results[0].name,
+                image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
+                  "maxwidth=400" +
+                  "&photoreference=" + results[2].photos[0].photo_reference +
+                  "&key=" + process.env.GOOGLE_MAPS_KEY,
+                subtitle: results[2].vicinity,
+                default_action: {
+                  type: "web_url",
+                  url: 'axd7832.github.io',
+                  webview_height_ratio: "tall"
+                },
+                buttons: [{
+                  type: "web_url",
+                  url: 'axd7832.github.io',
+                  title: "View Website"
+                }]
+              },
+              {
+                title: results[3].name,
+                image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
+                  "maxwidth=400" +
+                  "&photoreference=" + results[3].photos[0].photo_reference +
+                  "&key=" + process.env.GOOGLE_MAPS_KEY,
+                subtitle: results[3].vicinity,
+                default_action: {
+                  type: "web_url",
+                  url: 'axd7832.github.io',
+                  webview_height_ratio: "tall"
+                },
+                buttons: [{
+                  type: "web_url",
+                  url: 'axd7832.github.io',
+                  title: "View Website"
+                }]
+              },
+              {
+                title: results[4].name,
+                image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
+                  "maxwidth=400" +
+                  "&photoreference=" + results[4].photos[0].photo_reference +
+                  "&key=" + process.env.GOOGLE_MAPS_KEY,
+                subtitle: results[0].vicinity,
+                default_action: {
+                  type: "web_url",
+                  url: 'axd7832.github.io',
+                  webview_height_ratio: "tall"
+                },
+                buttons: [{
+                  type: "web_url",
+                  url: 'axd7832.github.io',
+                  title: "View Website"
+                }]
+              }
+            ]
+          }
+        }
+      }
+      results.forEach(function(elem,index) {
+        getBarInfo(elem.place_id).then(function(website) {
           console.log(counter);
           counter++
-          if(counter === results.length){ 
-            response = {
-              "text": "test"
+          results.attachment.payload.elements[index].default_action.url = website;
+          if(counter === results.length) {
+            console.log(results);
+            let response = {
+              "text":"hi"
             }
             callSendAPI(sender_psid, response);
           }
