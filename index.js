@@ -220,117 +220,14 @@ function handleMessage(sender_psid, received_message) {
           }
           if (counter === results.length) {
             console.log(results);
-
+            response={
+              "text":"hello"
+            }
             callSendAPI(sender_psid, response);
           }
-        })
+        });
       });
     });
-
-
-
-    // if (results) {
-    //   results = results.slice(0, 5);
-    //   response = {
-    //     attachment: {
-    //       type: "template",
-    //       payload: {
-    //         template_type: "generic",
-    //         elements: [{
-    //           title: results[0].name,
-    //           image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
-    //             "maxwidth=400" +
-    //             "&photoreference=" + results[0].photos[0].photo_reference +
-    //             "&key=" + process.env.GOOGLE_MAPS_KEY,
-    //           subtitle: results[0].vicinity,
-    //           default_action: {
-    //             type: "web_url",
-    //             url: 'axd7832.github.io',
-    //             webview_height_ratio: "tall"
-    //           },
-    //           buttons: [{
-    //             type: "web_url",
-    //             url: 'axd7832.github.io',
-    //             title: "View Website"
-    //           }]
-    //         },
-    //         {
-    //           title: results[1].name,
-    //           image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
-    //             "maxwidth=400" +
-    //             "&photoreference=" + results[1].photos[0].photo_reference +
-    //             "&key=" + process.env.GOOGLE_MAPS_KEY,
-    //           subtitle: results[1].vicinity,
-    //           default_action: {
-    //             type: "web_url",
-    //             url: 'axd7832.github.io',
-    //             webview_height_ratio: "tall"
-    //           },
-    //           buttons: [{
-    //             type: "web_url",
-    //             url: 'axd7832.github.io',
-    //             title: "View Website"
-    //           }]
-    //         },
-    //         {
-    //           title: results[0].name,
-    //           image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
-    //             "maxwidth=400" +
-    //             "&photoreference=" + results[2].photos[0].photo_reference +
-    //             "&key=" + process.env.GOOGLE_MAPS_KEY,
-    //           subtitle: results[2].vicinity,
-    //           default_action: {
-    //             type: "web_url",
-    //             url: 'axd7832.github.io',
-    //             webview_height_ratio: "tall"
-    //           },
-    //           buttons: [{
-    //             type: "web_url",
-    //             url: 'axd7832.github.io',
-    //             title: "View Website"
-    //           }]
-    //         },
-    //         {
-    //           title: results[3].name,
-    //           image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
-    //             "maxwidth=400" +
-    //             "&photoreference=" + results[3].photos[0].photo_reference +
-    //             "&key=" + process.env.GOOGLE_MAPS_KEY,
-    //           subtitle: results[3].vicinity,
-    //           default_action: {
-    //             type: "web_url",
-    //             url: 'axd7832.github.io',
-    //             webview_height_ratio: "tall"
-    //           },
-    //           buttons: [{
-    //             type: "web_url",
-    //             url: 'axd7832.github.io',
-    //             title: "View Website"
-    //           }]
-    //         },
-    //         {
-    //           title: results[4].name,
-    //           image_url: "https://maps.googleapis.com/maps/api/place/photo?" +
-    //             "maxwidth=400" +
-    //             "&photoreference=" + results[4].photos[0].photo_reference +
-    //             "&key=" + process.env.GOOGLE_MAPS_KEY,
-    //           subtitle: results[0].vicinity,
-    //           default_action: {
-    //             type: "web_url",
-    //             url: 'axd7832.github.io',
-    //             webview_height_ratio: "tall"
-    //           },
-    //           buttons: [{
-    //             type: "web_url",
-    //             url: 'axd7832.github.io',
-    //             title: "View Website"
-    //           }]
-    //         }]
-    //       }
-    //     }
-    //   }
-    //   callSendAPI(sender_psid, response);
-    // }
   }
   // Checks if the message contains text
   if (received_message.text) {
