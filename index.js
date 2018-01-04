@@ -114,7 +114,7 @@ function handleMessage(sender_psid, received_message) {
         getBarInfo(elem.place_id).then(function(website) {
           console.log(counter);
           counter++
-          results.attachment.payload.elements[index].default_action.url = website;
+          results.website = website;
           if(counter === results.length) {
             console.log(results);
             response={
