@@ -81,7 +81,7 @@ function getBars(lat, long) {
 }
 
 function getBarInfo(place_id) {
-  // return new Promise(function(resolve, reject) {
+  return new Promise(function(resolve, reject) {
     request({
       "uri": "https://maps.googleapis.com/maps/api/place/details/json",
       "qs": {
@@ -92,17 +92,16 @@ function getBarInfo(place_id) {
       "json":true
     }, (err, res, body) => {
       if (err){
-        // reject(err);
+        reject(err);
       }
         console.log("\n\n\nWebsite");
         console.log(body.result.website);
-        // resolve(body.result.website);
-        return body.result.website;
+        resolve(body.result.website);
     });
-  // })
+  })
 }
 // Handles messages events
-function handleMessage(sender_psid, received_message) {
+async function handleMessage(sender_psid, received_message) {
   let response;
   let results;
   // Checking for location info
@@ -113,11 +112,10 @@ function handleMessage(sender_psid, received_message) {
     getBars(lat, long).then(function(info) {
       results = info.slice(0, 1);
       results.forEach(function(elem){
-        console.log(elem);
-        console.log(getBarInfo(elem.place_id));
-      })
-      console.log("\n\n\nRESULTS AFTER CALL");
-      console.log(results);
+        let website = await getBarInfo(elem.place_id);
+        console.log("inside for ");
+        console.log(website);
+      });
     });
 
 
