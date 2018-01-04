@@ -110,7 +110,7 @@ function handleMessage(sender_psid, received_message) {
     getBars(lat, long).then(function(info) {
       results = info.slice(0, 1);
       let counter = 0;
-      // let response = {
+      let response = {
         attachment: {
           type: "template",
           payload: {
@@ -216,9 +216,7 @@ function handleMessage(sender_psid, received_message) {
           results.attachment.payload.elements[index].default_action.url = website;
           if(counter === results.length) {
             console.log(results);
-            let response = {
-              "text":"hi"
-            }
+            
             callSendAPI(sender_psid, response);
           }
         })
