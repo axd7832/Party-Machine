@@ -116,7 +116,7 @@ function handleMessage(sender_psid, received_message) {
         getBarInfo(elem.place_id).then(function(website){
           console.log(website);
           console.log(counter);
-          if(counter === results.length){
+          if(counter === results.length){ 
             response = {
               "text": "test"
             }
