@@ -101,14 +101,13 @@ function getBarInfo(place_id) {
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
   let response;
-  let results;
   // Checking for location info
   if (received_message.attachments) {
     let lat = received_message.attachments[0].payload.coordinates.lat;
     let long = received_message.attachments[0].payload.coordinates.long;
     // Call for bars near the coords
     getBars(lat, long).then(function(info) {
-      results = info.slice(0, 1);
+      let results = info.slice(0, 1);
       // response = {
       //   attachment: {
       //     type: "template",
@@ -214,7 +213,7 @@ function handleMessage(sender_psid, received_message) {
           counter++
           console.log(counter);
           console.log(website);
-          results.website = website;
+          results[i].website = website;
           // if(results.website){
           //   results.website = "website.notfound.com"
           // }
